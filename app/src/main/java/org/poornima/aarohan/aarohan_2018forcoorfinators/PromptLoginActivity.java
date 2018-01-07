@@ -1,5 +1,6 @@
 package org.poornima.aarohan.aarohan_2018forcoorfinators;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.AarohanCoordinatorClass.URLHelper;
 
 import java.util.HashMap;
@@ -35,8 +38,6 @@ public class PromptLoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_prompt_login);
         init();
         methodListeners();
-
-
     }
 
     private void methodListeners() {
@@ -87,6 +88,25 @@ public class PromptLoginActivity extends AppCompatActivity {
     }
 
     private void verifyAndParseResponse(String response, String email) {
+        Log.d("DEBUG","I ma here ");
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            String error = jsonObject.getString("error");
+            if (error.equals("false")){
+                Log.d("DEBUG","now I ma here ");
+                Intent intent = new Intent(PromptLoginActivity.this,OTPActivity.class);
+                intent.putExtra("email",email);
+                intent.putExtra("Activityname",getIntent().getStringExtra("modulename").toString());
+                startActivity(intent);
+                finish();
+            }
+            else{
+                    Log.d("DEBUG","Error in parsing");
+            }
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 

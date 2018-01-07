@@ -3,7 +3,6 @@
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-android:background="#000"
 tools:context="org.poornima.aarohan.aarohan_2018forcoorfinators.PromptLoginActivity">
 
 <RelativeLayout
@@ -21,6 +20,7 @@ tools:context="org.poornima.aarohan.aarohan_2018forcoorfinators.PromptLoginActiv
         android:layout_marginBottom="22dp"
         android:drawableLeft="@drawable/ic_email_black_24dp"
         android:drawablePadding="10dp"
+        android:textColor="#000000"
         android:hint="@string/enter_your_email_here"
         android:inputType="textEmailAddress" />
 
