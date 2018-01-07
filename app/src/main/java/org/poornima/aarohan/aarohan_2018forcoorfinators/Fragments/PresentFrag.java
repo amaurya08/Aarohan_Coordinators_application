@@ -29,7 +29,7 @@ public class PresentFrag extends Fragment
     @Override
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-         View customview= inflater.inflate(R.layout.present_frag, container, false);
+         View customview= inflater.inflate(R.layout.frag_present, container, false);
 
         final String [] student={"Jagrati","Aaysuhi","Mayank","Kuldeep","Ashish","Bhumika","Priyam","Prashita","Harshita","hk","jk","kk"};
         ListAdapter myadapter=new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,student);

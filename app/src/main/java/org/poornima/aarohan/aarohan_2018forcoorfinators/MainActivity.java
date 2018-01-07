@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         listCoordinator.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String coor=coordinator[i];
+               /* String coor=coordinator[i];
 
                 if(coor.equals("Event Coordinator"))
                 {
@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else
                     Toast.makeText(MainActivity.this,coor,Toast.LENGTH_LONG).show();
+                */
 
             }
         });
