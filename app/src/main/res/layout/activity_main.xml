@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/whiteTheme"
     tools:context="org.poornima.aarohan.aarohan_2018forcoorfinators.MainActivity">
 
     <ListView
@@ -13,8 +14,8 @@
         android:divider="#ffffff"
         android:layout_marginTop="10dp"
         android:id="@+id/mainlist"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         />
 
 </RelativeLayout>
