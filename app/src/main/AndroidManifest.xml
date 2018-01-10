@@ -36,6 +36,7 @@
         </activity>
         <activity android:name=".OTPActivity" />
         <activity android:name=".BarcodeCaptureActivity" />
+        <activity android:name=".RegistrationActivity"></activity>
     </application>
 
 </manifest>
