@@ -81,7 +81,8 @@ public class RegistrationActivity extends AppCompatActivity {
                             flag=0;
                         }
                     }
-                    if(flag==0) {
+                    if(flag==0)
+                    {
                         dialog.show();
                         okbut.setOnClickListener(new View.OnClickListener() {
                             @Override
