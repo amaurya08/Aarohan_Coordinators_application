@@ -36,6 +36,11 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this,EventCoordinatorActivity.class);
                     startActivity(intent);
                 }
+                else if(coor.equals("Registration Desk"))
+                {
+                    Intent intent = new Intent(MainActivity.this,RegistrationActivity.class);
+                    startActivity(intent);
+                }
                 else
                     Toast.makeText(MainActivity.this,coor,Toast.LENGTH_LONG).show();
               /* startModule(modules[i]);*/
