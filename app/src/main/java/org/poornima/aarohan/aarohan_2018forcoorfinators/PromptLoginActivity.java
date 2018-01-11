@@ -96,7 +96,7 @@ public class PromptLoginActivity extends AppCompatActivity {
                 Log.d("DEBUG","now I ma here ");
                 Intent intent = new Intent(PromptLoginActivity.this,OTPActivity.class);
                 intent.putExtra("email",email);
-                intent.putExtra("Activityname",getIntent().getStringExtra("modulename").toString());
+                intent.putExtra("modulename",getIntent().getStringExtra("modulename").toString());
                 startActivity(intent);
                 finish();
             }
