@@ -1,36 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Name"
+        android:text="@string/nameofstudent"
         android:textSize="15sp"
-        android:id="@+id/nametxt"
-        />
+        android:id="@+id/nametxt" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/nametxt"
-        android:text="College"
+        android:text="@string/collegename"
         android:id="@+id/colgtxt"
-        android:textSize="15sp"
-        />
+        android:textSize="15sp" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/colgtxt"
-        android:text="OK"
-        android:id="@+id/okbut"
-        />
+        android:text="@string/ok_dialoguebox"
+        android:id="@+id/okbut" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/colgtxt"
-        android:layout_toRightOf="@+id/okbut"
-        android:text="Cancel"
-        android:id="@+id/cancelbut"
-        />
-
+        android:layout_toEndOf="@+id/okbut"
+        android:text="@string/cancel_dialoguebox"
+        android:id="@+id/cancelbut" />
 </RelativeLayout>

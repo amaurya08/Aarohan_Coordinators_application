@@ -15,7 +15,6 @@
         android:layout_height="match_parent"
         app:tabMode="fixed"
         app:tabGravity="fill"/>
-
         </android.support.design.widget.AppBarLayout>
     <android.support.v4.view.ViewPager
     android:id="@+id/viewpager"
@@ -30,13 +29,12 @@
         android:layout_height="70dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:id="@+id/scanner"
         app:fabSize="normal"
         android:src="@drawable/ic_camera_black_24dp"
         android:scaleType="center"
         android:layout_marginBottom="26dp"
-        android:layout_marginRight="15dp" />
+        android:layout_marginEnd="15dp" />
 
 
 </RelativeLayout>
