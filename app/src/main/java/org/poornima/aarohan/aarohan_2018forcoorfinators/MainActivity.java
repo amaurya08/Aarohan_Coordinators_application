@@ -28,28 +28,16 @@ public class MainActivity extends AppCompatActivity {
         listCoordinator.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String coor=coordinator[i];
+               /* String coor=coordinator[i];
 
                 if(coor.equals("Event Coordinator"))
                 {
                     Intent intent = new Intent(MainActivity.this,EventCoordinatorActivity.class);
                     startActivity(intent);
                 }
-                else if(coor.equals("Registration Desk"))
-                {
-                    Intent intent = new Intent(MainActivity.this,RegistrationActivity.class);
-                    startActivity(intent);
-                }
                 else
-                    if(coor.equals("Accomodation Desk"))
-                    {
-                        Intent intent = new Intent(MainActivity.this,AccomodationActivity.class);
-                        startActivity(intent);
-
-                    }
-                    else
-                    Toast.makeText(MainActivity.this,coor,Toast.LENGTH_LONG).show();
-              /* startModule(modules[i]);*/
+                    Toast.makeText(MainActivity.this,coor,Toast.LENGTH_LONG).show();*/
+               startModule(modules[i]);
             }
         });
     }
