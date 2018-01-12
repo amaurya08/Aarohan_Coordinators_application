@@ -46,7 +46,7 @@ public class EventCoordinatorActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private ArrayList<String> arrayList;
     private Button logoutbut;
-    private ListAdapter myadapter;
+    private ArrayAdapter<String> myadapter;
 
 
 
@@ -58,11 +58,12 @@ public class EventCoordinatorActivity extends AppCompatActivity {
         progressDialog.show();
         eventOfCoordinator();
         arrayList=new ArrayList<>();
-        myadapter = new ArrayAdapter<String>(EventCoordinatorActivity.this,android.R.layout.simple_list_item_1,arrayList);
-        fetchCoordinatorDetails();
+        myadapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,arrayList);
+
+        Log.d("Debug","data is fetched");
         evelist.setAdapter(myadapter);
-
-
+        fetchCoordinatorDetails();
+        Log.d("Debug","data is set to adapter");
         progressDialog.cancel();
         methodListener();
 
@@ -81,8 +82,10 @@ public class EventCoordinatorActivity extends AppCompatActivity {
         {
             Log.d("Debug",cursor.getString(1));
             arrayList.add(cursor.getString(1));
+            myadapter.notifyDataSetChanged();
             nametext.setText(cursor.getString(9));
         }
+
         cursor.close();
     }
 
@@ -175,7 +178,7 @@ public class EventCoordinatorActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 try {
-                    progressDialog.cancel();
+                    //progressDialog.cancel();
                     parseCoordinatorDetail(response);
                 } catch (JSONException e) {
                     e.printStackTrace();

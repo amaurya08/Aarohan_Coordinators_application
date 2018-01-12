@@ -1,5 +1,6 @@
 package org.poornima.aarohan.aarohan_2018forcoorfinators;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,8 +30,7 @@ public class PromptLoginActivity extends AppCompatActivity {
 
     private Button Submit_email;
     private EditText Email_id;
-
-
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,35 +40,47 @@ public class PromptLoginActivity extends AppCompatActivity {
         methodListeners();
     }
 
+    private void init() {
+        progressDialog = new ProgressDialog(PromptLoginActivity.this);
+        progressDialog.setCancelable(true);
+        progressDialog.setMessage("Verifying Email...");
+        Email_id = findViewById(R.id.email);
+        Submit_email = findViewById(R.id.submit_email);
+    }
+
     private void methodListeners() {
         Submit_email.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressDialog.show();
                 verifyEmail(Email_id.getText().toString());
             }
         });
     }
 
-    private void verifyEmail(final String email) {
-        try{
-            StringRequest stringRequest=new StringRequest(Request.Method.POST, URLHelper.verifyEmail, new Response.Listener<String>() {
+    private void verifyEmail(String em) {
+        final String email=em;
+        try {
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URLHelper.verifyEmail, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    verifyAndParseResponse(response,email);
+                    progressDialog.cancel();
+                    verifyAndParseResponse(response, email);
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.d("TAG",error+"");
-                    Toast.makeText(PromptLoginActivity.this, ""+error, Toast.LENGTH_SHORT).show();
+                    progressDialog.cancel();
+                    Log.d("TAG", error + "");
+                    Toast.makeText(PromptLoginActivity.this, "" + error, Toast.LENGTH_SHORT).show();
                 }
-            }){
+            }) {
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
-                   HashMap<String,String> map=new HashMap<>();
-                   map.put("email",email);
-                   map.put("type","COORDINATOR");
-                   return  map;
+                    HashMap<String, String> map = new HashMap<>();
+                    map.put("email", email);
+                    map.put("type", "COORDINATOR");
+                    return map;
                 }
             };
             stringRequest.setRetryPolicy(
@@ -78,40 +90,33 @@ public class PromptLoginActivity extends AppCompatActivity {
                             DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
                     )
             );
-            RequestQueue queue= Volley.newRequestQueue(PromptLoginActivity.this);
+            RequestQueue queue = Volley.newRequestQueue(PromptLoginActivity.this);
             queue.add(stringRequest);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
     private void verifyAndParseResponse(String response, String email) {
-        Log.d("DEBUG","I ma here ");
+        Log.d("DEBUG", "I ma here ");
         try {
             JSONObject jsonObject = new JSONObject(response);
             String error = jsonObject.getString("error");
-            if (error.equals("false")){
-                Log.d("DEBUG","now I ma here ");
-                Intent intent = new Intent(PromptLoginActivity.this,OTPActivity.class);
-                intent.putExtra("email",email);
-                intent.putExtra("modulename",getIntent().getStringExtra("modulename").toString());
+            if (error.equals("false")) {
+                Log.d("DEBUG", "now I ma here ");
+                Intent intent = new Intent(PromptLoginActivity.this, OTPActivity.class);
+                intent.putExtra("email", email);
+                //intent.putExtra("modulename", getIntent().getStringExtra("modulename").toString());
                 startActivity(intent);
                 finish();
+            } else {
+                Log.d("DEBUG", "Error in parsing");
             }
-            else{
-                    Log.d("DEBUG","Error in parsing");
-            }
-        }
-        catch (JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
 
-    private void init() {
-        Email_id=findViewById(R.id.email);
-        Submit_email=findViewById(R.id.submit_email);
-    }
 }

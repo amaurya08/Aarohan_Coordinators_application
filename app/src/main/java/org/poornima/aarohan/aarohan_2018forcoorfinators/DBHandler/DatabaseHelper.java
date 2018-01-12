@@ -15,7 +15,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         private Context context;
         public DatabaseHelper(Context context){
             super(context,"aarohanCoordinatorDb.db",null,1);
-            Log.d("TAG","Database Created");
+            Log.d("Debug","Database Created");
             this.context=context;
         }
         @Override

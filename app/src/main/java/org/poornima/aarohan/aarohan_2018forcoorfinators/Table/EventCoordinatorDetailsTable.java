@@ -29,7 +29,10 @@ public class EventCoordinatorDetailsTable {
 
     public static void createTable(SQLiteDatabase db) {
         db.execSQL(createTable);
-        Log.d("DATABASE", "Table Created");
+        Log.d("Debug", "Table Created");
+    }
+    public static void clearCoordinatorDetail(SQLiteDatabase db,String query){
+        db.execSQL(query);
     }
 
     public static void deleteTableData(SQLiteDatabase db, String query) {
