@@ -1,4 +1,5 @@
 package org.poornima.aarohan.aarohan_2018forcoorfinators.Fragments;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,12 +11,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import org.poornima.aarohan.aarohan_2018forcoorfinators.R;
+
 /**
  * Created by Bhoomika on 10-01-2018.
  */
-public class PresentAccoFrag extends Fragment{
-    public PresentAccoFrag()
+
+public class CheckInAcco extends Fragment {
+    public CheckInAcco()
     {
     }
 
@@ -23,8 +27,9 @@ public class PresentAccoFrag extends Fragment{
     @Override
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View customview= inflater.inflate(R.layout.frag_present, container, false);
-        final String [] student={"Jagrati","Kuldeep Sir","Ashish sir","Bhumika","Mayank"};
+        View customview= inflater.inflate(R.layout.frag_check_in, container, false);
+
+        final String [] student={"Jagrati","Aaysuhi","Mayank","Kuldeep Sir","Ashish Sir","Bhumika","Priyam","Prashita","Harshita","hk","jk","kk"};
         ListAdapter myadapter=new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,student);
         ListView mylist =customview.findViewById(R.id.List1);
         mylist.setAdapter(myadapter);

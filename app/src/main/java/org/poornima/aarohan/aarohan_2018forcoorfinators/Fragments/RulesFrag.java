@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 public class RulesFrag extends Fragment
 {
+    private TextView details;
     public RulesFrag()
     {
     }
@@ -32,18 +34,11 @@ public class RulesFrag extends Fragment
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
          View customview= inflater.inflate(R.layout.frag_rules, container, false);
 
-        final String [] student={"Jagrati","Aaysuhi","Mayank","Kuldeep","Ashish","Bhumika","Priyam","Prashita","Harshita","hk","jk","kk"};
-        ListAdapter myadapter=new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,student);
-        ListView mylist = (ListView) customview.findViewById(R.id.List1);
-        mylist.setAdapter(myadapter);
-
-        mylist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String students = student[i];
-                Toast.makeText(getActivity(),students,Toast.LENGTH_LONG).show();
-            }
-        });
+        fetchDetails();
         return customview;
+    }
+
+    private void fetchDetails() {
+
     }
 }

@@ -51,7 +51,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
         if (requestCode==RC_BARCODE_CAPTURE)
         {
-
             LayoutInflater factory = LayoutInflater.from(RegistrationActivity.this);
             final View dialogview= factory.inflate(R.layout.dialog_scanner_result,null);
             final AlertDialog dialog = new AlertDialog.Builder(RegistrationActivity.this).create();
@@ -64,7 +63,6 @@ public class RegistrationActivity extends AppCompatActivity {
             {
                 if(data!=null)
                 {
-
                     Log.d("Data", data.getStringExtra("barcodeValue"));
                     final String barcodeValue = data.getStringExtra("barcodeValue");
                     regno.setText(barcodeValue);
@@ -99,17 +97,10 @@ public class RegistrationActivity extends AppCompatActivity {
                                 dialog.dismiss();
                             }
                         });
-
                     }
-
-
-
-
                 }
             }
-
         }
-
         else {
             super.onActivityResult(requestCode, resultCode, data);
         }

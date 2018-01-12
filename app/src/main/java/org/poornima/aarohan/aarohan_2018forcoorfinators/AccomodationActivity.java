@@ -15,10 +15,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import org.poornima.aarohan.aarohan_2018forcoorfinators.Fragments.AbsentAccoFrag;
+import org.poornima.aarohan.aarohan_2018forcoorfinators.Fragments.CheckInAcco;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.Fragments.AccoCoordinatorProfileFrag;
-import org.poornima.aarohan.aarohan_2018forcoorfinators.Fragments.AllAccoFrag;
-import org.poornima.aarohan.aarohan_2018forcoorfinators.Fragments.PresentAccoFrag;
+import org.poornima.aarohan.aarohan_2018forcoorfinators.Fragments.CheckOutAcco;
 
 
 import java.util.ArrayList;
@@ -31,7 +30,7 @@ public class AccomodationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event_all_details);
+        setContentView(R.layout.activity_accomodation);
         viewpager = findViewById(R.id.viewpager);
         setupViewPager(viewpager);
 
@@ -49,9 +48,10 @@ public class AccomodationActivity extends AppCompatActivity {
     public void setupViewPager(ViewPager viewpager) {
         AccomodationActivity.ViewPagerAdapter adapter =new AccomodationActivity.ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new AccoCoordinatorProfileFrag(),"My Profile");
-        adapter.addFragment(new PresentAccoFrag(),"Present");
-        adapter.addFragment(new AbsentAccoFrag(),"Absent");
-        adapter.addFragment(new AllAccoFrag(),"All");
+        adapter.addFragment(new CheckInAcco(),"Check In");
+        adapter.addFragment(new CheckOutAcco(),"Check Out");
+
+        //adapter.addFragment(new Check(),"All");
         viewpager.setAdapter(adapter);
 
     }

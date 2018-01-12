@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import org.poornima.aarohan.aarohan_2018forcoorfinators.Table.EventCoordinatorDetailsTable;
+
 /**
  * Created by Bhoomika on 11-01-2018.
  */
@@ -18,6 +20,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         @Override
         public void onCreate(SQLiteDatabase db) {
+            EventCoordinatorDetailsTable.createTable(db);
         }
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
