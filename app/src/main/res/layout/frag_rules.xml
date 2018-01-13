@@ -13,6 +13,8 @@
                  android:layout_height="wrap_content"
                  android:id="@+id/detailtxt"
                  android:text="name time"
+                 android:maxLines="50"
+                 android:singleLine="false"
                  android:textSize="15sp"
                  />
      </ScrollView>

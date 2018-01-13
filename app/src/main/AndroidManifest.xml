@@ -23,21 +23,22 @@
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
 
-        <activity android:name=".SplashActivity" />
-        <activity android:name=".PromptLoginActivity" />
-        <activity android:name=".EventCoordinatorActivity" />
-        <activity android:name=".EventAllDetailsActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".SplashActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".PromptLoginActivity" />
+        <activity android:name=".EventCoordinatorActivity" />
+        <activity android:name=".EventAllDetailsActivity" />
+        <activity android:name=".MainActivity" />
+
         <activity android:name=".OTPActivity" />
         <activity android:name=".BarcodeCaptureActivity" />
         <activity android:name=".RegistrationActivity" />
-        <activity android:name=".AccomodationActivity"></activity>
+        <activity android:name=".AccomodationActivity"/>
     </application>
 
 </manifest>

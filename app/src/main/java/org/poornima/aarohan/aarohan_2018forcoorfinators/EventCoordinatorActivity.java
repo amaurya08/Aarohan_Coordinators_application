@@ -56,7 +56,7 @@ public class EventCoordinatorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_coordinator);
         init();
-        progressDialog.show();
+
         eventOfCoordinator();
         arrayList=new ArrayList<>();
         myadapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,arrayList);
@@ -96,6 +96,7 @@ public class EventCoordinatorActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(EventCoordinatorActivity.this,EventAllDetailsActivity.class);
+                intent.putExtra("eventname",arrayList.get(i).toString());
                 startActivity(intent);
             }
         });
@@ -165,6 +166,7 @@ public class EventCoordinatorActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(EventCoordinatorActivity.this);
         progressDialog.setMessage("Loading Profile...");
         progressDialog.setCancelable(false);
+        progressDialog.show();
         initaltxt = findViewById(R.id.inittxt);
 
 

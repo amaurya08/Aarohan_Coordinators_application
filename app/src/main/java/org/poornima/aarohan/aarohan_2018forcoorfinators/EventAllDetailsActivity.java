@@ -66,10 +66,14 @@ public class EventAllDetailsActivity extends AppCompatActivity {
 
     public void setupViewPager(ViewPager viewpager) {
         ViewPagerAdapter adapter =new ViewPagerAdapter(getSupportFragmentManager());
+        Bundle data=new Bundle();
+        data.putString("eventname",getIntent().getStringExtra("eventname"));
+        Fragment fragmentRules=new RulesFrag();
+        fragmentRules.setArguments(data);
         adapter.addFragment(new PresentFrag(),"Present");
         adapter.addFragment(new AbsentFrag(),"Absent");
         adapter.addFragment(new AllAbsentFrag(),"All");
-        adapter.addFragment(new RulesFrag(),"Rules");
+        adapter.addFragment(fragmentRules,"Rules");
         viewpager.setAdapter(adapter);
 
     }

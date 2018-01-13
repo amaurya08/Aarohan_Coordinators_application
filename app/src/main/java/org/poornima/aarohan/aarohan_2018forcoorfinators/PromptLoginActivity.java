@@ -99,12 +99,12 @@ public class PromptLoginActivity extends AppCompatActivity {
     }
 
     private void verifyAndParseResponse(String response, String email) {
-        Log.d("DEBUG", "I ma here ");
+        Log.d("DEBUG", "I am here ");
         try {
             JSONObject jsonObject = new JSONObject(response);
             String error = jsonObject.getString("error");
             if (error.equals("false")) {
-                Log.d("DEBUG", "now I ma here ");
+                Log.d("DEBUG", "now I am here ");
                 Intent intent = new Intent(PromptLoginActivity.this, OTPActivity.class);
                 intent.putExtra("email", email);
                 //intent.putExtra("modulename", getIntent().getStringExtra("modulename").toString());
