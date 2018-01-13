@@ -105,12 +105,41 @@ public class OTPActivity extends AppCompatActivity {
         JSONObject jsonObject = new JSONObject(response);
         String error = jsonObject.getString("error");
         String message = jsonObject.getString("message");
+        JSONArray jsonArray = new JSONArray(message);
+        JSONObject jsonObject1 = jsonArray.getJSONObject(0);
+        String co_id = jsonObject1.getString("co_id");
+        String co_type = jsonObject1.getString("co_type");
         if (error.equals("false")) {
-            makeSession(message);
+            makeSession(co_id,co_type);
+            switch (co_type) {
+                case "EVENT_COOR":
+                    Intent intent = new Intent(OTPActivity.this, EventCoordinatorActivity.class);
+                    startActivity(intent);
+                    finish();
+                    break;
+
+                case "SECURITY":
+                    Intent intent1 = new Intent(OTPActivity.this, RegistrationActivity.class);
+                    startActivity(intent1);
+                    finish();
+                    break;
+
+                case "HOSPITALITY":
+                    Intent intent2 = new Intent(OTPActivity.this, AccomodationActivity.class);
+                    startActivity(intent2);
+                    finish();
+                    break;
+
+                default:
+                    Toast.makeText(OTPActivity.this, "NOT Forwarded", Toast.LENGTH_SHORT).show();
+                    break;
+
+            }
+
             /*if ((getIntent().getStringExtra("modulename").toString()).equals("module1")){*/
-            final Intent intent = new Intent(OTPActivity.this, EventCoordinatorActivity.class);
-            startActivity(intent);
-            finish();
+            //final Intent intent = new Intent(OTPActivity.this, EventCoordinatorActivity.class);
+            //startActivity(intent);
+            //finish();
             //eventOfCoordinator();
 
             /*}
@@ -132,14 +161,15 @@ public class OTPActivity extends AppCompatActivity {
     }
 
 
-    private void makeSession(String message) {
+    private void makeSession(String c_id, String c_type) {
         SharedPreferences sharedPref = getSharedPreferences("aarohan", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("email", intentEmail);
         editor.putString("otp", otp_box.getText().toString());
-        editor.putString("type", message);
+        editor.putString("type", c_type);
+        editor.putString("cid",c_id);
         editor.putBoolean("is", true);
-        Log.d(TAG, "Making Session with " + intentEmail + " " + otp_box.getText().toString() + " " + message);
+        Log.d(TAG, "Making Session with " + intentEmail + " " + otp_box.getText().toString() + " " + c_type);
         editor.apply();
     }
 

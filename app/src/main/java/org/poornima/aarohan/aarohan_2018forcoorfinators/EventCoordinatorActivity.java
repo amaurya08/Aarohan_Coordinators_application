@@ -47,6 +47,7 @@ public class EventCoordinatorActivity extends AppCompatActivity {
     private ArrayList<String> arrayList;
     private Button logoutbut;
     private ArrayAdapter<String> myadapter;
+    TextView initaltxt;
 
 
 
@@ -59,12 +60,10 @@ public class EventCoordinatorActivity extends AppCompatActivity {
         eventOfCoordinator();
         arrayList=new ArrayList<>();
         myadapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,arrayList);
-
         Log.d("Debug","data is fetched");
         evelist.setAdapter(myadapter);
-        fetchCoordinatorDetails();
         Log.d("Debug","data is set to adapter");
-        progressDialog.cancel();
+
         methodListener();
 
     }
@@ -84,6 +83,9 @@ public class EventCoordinatorActivity extends AppCompatActivity {
             arrayList.add(cursor.getString(1));
             myadapter.notifyDataSetChanged();
             nametext.setText(cursor.getString(9));
+            String j= cursor.getString(9).substring(0,1).toUpperCase()+"";
+            initaltxt.setText(j);
+
         }
 
         cursor.close();
@@ -163,6 +165,8 @@ public class EventCoordinatorActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(EventCoordinatorActivity.this);
         progressDialog.setMessage("Loading Profile...");
         progressDialog.setCancelable(false);
+        initaltxt = findViewById(R.id.inittxt);
+
 
     }
     private Boolean checksession()
@@ -237,11 +241,13 @@ public class EventCoordinatorActivity extends AppCompatActivity {
                 long jaggu = EventCoordinatorDetailsTable.insert(db.getWritableDatabase(), cv);
                 Log.d("Debug", "" + jaggu);
             }
-
+            fetchCoordinatorDetails();
+            progressDialog.cancel();
 
         }
         else
         {
+            progressDialog.cancel();
             setContentView(R.layout.no_event_found);
             TextView noevent = findViewById(R.id.noeventtxt);
             noevent.setText("You Have No event Registered");
