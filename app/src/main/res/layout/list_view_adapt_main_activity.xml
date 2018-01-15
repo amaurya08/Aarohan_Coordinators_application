@@ -13,8 +13,5 @@
         android:textColor="#eb309afe"
         android:gravity="center"
         android:id="@+id/maintxt"
-        android:background="@drawable/gray_rect"
-
-        />
-
+        android:background="@drawable/gray_rect" />
 </RelativeLayout>

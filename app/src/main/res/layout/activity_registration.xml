@@ -8,11 +8,18 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="32sp"
+        android:textSize="28sp"
         android:textStyle="bold"
         android:gravity="center"
         android:id="@+id/mytxt"
-        android:text="@string/RegistrationPageheading"/>
+        android:text="Welcome"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:textSize="22sp"
+        android:layout_below="@+id/mytxt"
+        android:id="@+id/co_email"/>
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="70sp"
@@ -29,5 +36,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/mytxt" />
+        android:layout_below="@+id/co_email" />
 </RelativeLayout>

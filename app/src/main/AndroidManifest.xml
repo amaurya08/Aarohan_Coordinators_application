@@ -23,7 +23,7 @@
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
 
-        <activity android:name=".SplashActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,8 +33,9 @@
         <activity android:name=".PromptLoginActivity" />
         <activity android:name=".EventCoordinatorActivity" />
         <activity android:name=".EventAllDetailsActivity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity">
 
+        </activity>
         <activity android:name=".OTPActivity" />
         <activity android:name=".BarcodeCaptureActivity" />
         <activity android:name=".RegistrationActivity" />

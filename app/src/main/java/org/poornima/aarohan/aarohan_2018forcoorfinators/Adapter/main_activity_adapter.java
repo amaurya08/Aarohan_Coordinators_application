@@ -28,9 +28,8 @@ public class main_activity_adapter extends ArrayAdapter<String> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
        LayoutInflater myinflate = LayoutInflater.from(getContext());
        View customView = myinflate.inflate(R.layout.list_view_adapt_main_activity,parent,false);
-        String coor = getItem(position);
-        TextView t1 = customView.findViewById(R.id.maintxt);
-        t1.setText(coor);
+     //   ((TextView)customView.findViewById(R.id.stu_name)).setText();
+       // ((TextView)customView.findViewById(R.id.registration_no)).setText();
         return customView;
     }
 }

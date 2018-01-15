@@ -156,6 +156,8 @@ public class EventCoordinatorActivity extends AppCompatActivity {
                 return map;
             }
         };
+        RequestQueue queue = Volley.newRequestQueue(EventCoordinatorActivity.this);
+        queue.add(request);
 
     }
 

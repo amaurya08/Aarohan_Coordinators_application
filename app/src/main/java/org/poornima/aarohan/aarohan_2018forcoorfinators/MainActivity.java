@@ -18,7 +18,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         final String [] coordinator={"Registration Desk","Event Coordinator","Accomodation Desk"};
         final String [] modules={"module1","module2","module3"};
         ListAdapter myadapter = new main_activity_adapter(MainActivity.this,coordinator);

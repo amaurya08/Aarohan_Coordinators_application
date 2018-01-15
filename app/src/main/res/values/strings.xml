@@ -15,7 +15,6 @@
     <string name="barcode_failure">No barcode captured</string>
     <string name="barcode_error">"Error reading barcode: %1$s"</string>
     <string name="ok">OK</string>
-    <string name="RegistrationPageheading">LIST</string>
     <string name="nameofstudent">Name</string>
     <string name="collegename">College</string>
     <string name="ok_dialoguebox">OK</string>

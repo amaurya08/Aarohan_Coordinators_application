@@ -10,4 +10,5 @@ public class URLHelper {
     public static final String  verifyOTP="http://aarohan.poornima.org/api/check-otp";
     public static final String  eventOfCoordinator = "http://www.aarohan.poornima.org/api/coordinator-event-details";
     public static final String  logOut="http://aarohan.poornima.org/api/logout";
+    public static final String  SecurityCheck="http://aarohan.poornima.org/api/security-check";
 }
