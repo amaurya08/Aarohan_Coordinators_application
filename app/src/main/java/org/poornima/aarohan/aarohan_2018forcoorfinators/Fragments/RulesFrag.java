@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,7 +46,7 @@ public class RulesFrag extends Fragment
 
     private void fetchDetails() {
         DatabaseHelper db = new DatabaseHelper(getContext());
-        Cursor cursor = db.getReadableDatabase().rawQuery("select * from "+ EventCoordinatorDetailsTable.TABLE_NAME + " WHERE " + EventCoordinatorDetailsTable.Event_name + "=?" ,new String[]{getArguments().getString("eventname")});
+        Cursor cursor = db.getReadableDatabase().rawQuery("select * from "+ EventCoordinatorDetailsTable.TABLE_NAME + " WHERE " + EventCoordinatorDetailsTable.Event_id + "=?" ,new String[]{getArguments().getString("eventid")});
         Log.d("Debug","cursor :"+cursor.toString());
         //nametext.setText(EventCoordinatorDetailsTable.Co_name);
 
@@ -53,14 +54,14 @@ public class RulesFrag extends Fragment
         {
             String s;
             s=("Title:"+cursor.getString(1))
-                    .concat("Date:"+cursor.getString(7))
-                    .concat("Time:"+cursor.getString(8))
-                    .concat("Venue:"+cursor.getString(6))
-                    .concat("Event Type"+cursor.getString(4))
-                    .concat("Participation Category"+cursor.getString(3))
-                    .concat("Event Category"+cursor.getString(2))
-                    .concat("Description:"+cursor.getString(5));
-            details.setText(s);
+                    .concat("<p>"+"Date:"+cursor.getString(7)+"</p>")
+                    .concat("<p>"+"Time:"+cursor.getString(8)+"</p>")
+                    .concat("<p>"+"Venue:"+cursor.getString(6)+"</p>")
+                    .concat("<p>"+"Event Type"+cursor.getString(4)+"</p>")
+                    .concat("<p>"+"Participation Category"+cursor.getString(3)+"</p>")
+                    .concat("<p>"+"Event Category"+cursor.getString(2)+"</p>")
+                    .concat("<p>"+"Description:"+cursor.getString(5));
+            details.setText(Html.fromHtml(s));
         }
         cursor.close();
 

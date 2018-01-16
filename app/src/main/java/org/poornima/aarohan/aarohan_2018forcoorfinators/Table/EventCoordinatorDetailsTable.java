@@ -22,8 +22,8 @@ public class EventCoordinatorDetailsTable {
     public final static String Co_name = "co_name";
     public final static String Event_map_coordinates_long = "event_map_coordinates_long";
     public final static String Event_map_coordinates_latt = "event_map_coordinates_latt";
-    private static final String createTable = "CREATE TABLE `EventCoordinatorDetails` ( `event_id` TEXT, `event_name` INTEGER NOT NULL," +
-            " `event_category` INTEGER, `event_participation_category` INTEGER, `event_type` INTEGER, `event_detail` TEXT, " +
+    private static final String createTable = "CREATE TABLE `EventCoordinatorDetails` ( `event_id` TEXT, `event_name` TEXT NOT NULL," +
+            " `event_category` TEXT, `event_participation_category` TEXT, `event_type` TEXT, `event_detail` TEXT, " +
             "`event_location` TEXT, `event_date` TEXT, `event_time` TEXT, `co_name` TEXT NOT NULL, `event_map_coordinates_long` TEXT," +
             " `event_map_coordinates_latt` TEXT, PRIMARY KEY(`event_id`) )";
 

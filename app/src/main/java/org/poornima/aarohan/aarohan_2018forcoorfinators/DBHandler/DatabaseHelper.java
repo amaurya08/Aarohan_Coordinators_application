@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import org.poornima.aarohan.aarohan_2018forcoorfinators.Table.EventCoordinatorDetailsTable;
+import org.poornima.aarohan.aarohan_2018forcoorfinators.Table.EventStudentsTable;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.Table.RegistrationDetailTable;
 
 /**
@@ -21,8 +22,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         @Override
         public void onCreate(SQLiteDatabase db) {
-
             EventCoordinatorDetailsTable.createTable(db);
+            EventStudentsTable.createTable(db);
             RegistrationDetailTable.createTable(db);
         }
         @Override

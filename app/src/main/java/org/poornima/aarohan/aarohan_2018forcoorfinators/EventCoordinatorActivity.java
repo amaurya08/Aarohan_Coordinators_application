@@ -29,7 +29,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.AarohanCoordinatorClass.URLHelper;
+import org.poornima.aarohan.aarohan_2018forcoorfinators.Adapter.EventCoordinatorListAdapter;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.DBHandler.DatabaseHelper;
+import org.poornima.aarohan.aarohan_2018forcoorfinators.Pojo.CoordinatorDataPojo;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.Table.EventCoordinatorDetailsTable;
 
 import java.util.ArrayList;
@@ -40,147 +42,43 @@ import java.util.Map;
 //TODO  Events Name in List View
 //TODO Event Listenenr invoke EvenAllDetailsActivit
 //TODO if event id in null find any func.
+
 public class EventCoordinatorActivity extends AppCompatActivity {
     private ListView evelist;
     private TextView nametext;
     private ProgressDialog progressDialog;
-    private ArrayList<String> arrayList;
+    private ArrayList<CoordinatorDataPojo> arrayList;
     private Button logoutbut;
-    private ArrayAdapter<String> myadapter;
+    EventCoordinatorListAdapter myadapter;
+    //private ArrayAdapter<String> myadapter;
     TextView initaltxt;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_coordinator);
         init();
-
+        progressDialog.show();
         eventOfCoordinator();
-        arrayList=new ArrayList<>();
-        myadapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,arrayList);
-        Log.d("Debug","data is fetched");
-        evelist.setAdapter(myadapter);
-        Log.d("Debug","data is set to adapter");
-
         methodListener();
-
-    }
-
-
-
-    private void fetchCoordinatorDetails() {
-
-        DatabaseHelper db = new DatabaseHelper(EventCoordinatorActivity.this);
-        Cursor cursor = db.getReadableDatabase().rawQuery("select * from "+ EventCoordinatorDetailsTable.TABLE_NAME,null);
-        Log.d("Debug","cursor :"+cursor.toString());
-        //nametext.setText(EventCoordinatorDetailsTable.Co_name);
-
-        while (cursor.moveToNext())
-        {
-            Log.d("Debug",cursor.getString(1));
-            arrayList.add(cursor.getString(1));
-            myadapter.notifyDataSetChanged();
-            nametext.setText(cursor.getString(9));
-            String j= cursor.getString(9).substring(0,1).toUpperCase()+"";
-            initaltxt.setText(j);
-
-        }
-
-        cursor.close();
-    }
-
-    private void methodListener() {
-        evelist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(EventCoordinatorActivity.this,EventAllDetailsActivity.class);
-                intent.putExtra("eventname",arrayList.get(i).toString());
-                startActivity(intent);
-            }
-        });
-        logoutbut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(checksession())
-                {
-                    logoutAPI();
-                    SharedPreferences sharedPreferences = getSharedPreferences("aarohan",MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("email","");
-                    editor.putString("otp","");
-                    editor.putBoolean("is",false);
-                    editor.putString("type","");
-                    editor.apply();
-                    DatabaseHelper db = new DatabaseHelper(EventCoordinatorActivity.this);
-                    EventCoordinatorDetailsTable.clearCoordinatorDetail(db.getWritableDatabase(), "delete from " + EventCoordinatorDetailsTable.TABLE_NAME);
-                    Toast.makeText(EventCoordinatorActivity.this,"LogoutSuccessfull",Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(EventCoordinatorActivity.this,PromptLoginActivity.class);
-                    startActivity(intent);
-
-                }
-                else
-                {
-                    Intent intent = new Intent(EventCoordinatorActivity.this,PromptLoginActivity.class);
-                    startActivity(intent);
-                }
-
-            }
-        });
-    }
-
-    private void logoutAPI() {
-        final StringRequest request = new StringRequest(Request.Method.POST, URLHelper.logOut, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.d("Debug", "LogoutApi");
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("Debug","Error in Api");
-            }
-        }
-        ){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                HashMap<String,String> map = new HashMap<>();
-                SharedPreferences sharedPreferences = getSharedPreferences("aarohan",MODE_PRIVATE);
-                String emailprof=sharedPreferences.getString("email","");
-                String otpprof = sharedPreferences.getString("otp","");
-                map.put("email",emailprof);
-                map.put("otp",otpprof);
-                map.put("type","COORDINATOR");
-                return map;
-            }
-        };
-        RequestQueue queue = Volley.newRequestQueue(EventCoordinatorActivity.this);
-        queue.add(request);
-
     }
 
     private void init() {
         evelist = findViewById(R.id.eventlist);
         nametext = findViewById(R.id.nametxt);
-        logoutbut=findViewById(R.id.logoutbut);
+        logoutbut = findViewById(R.id.logoutbut);
         progressDialog = new ProgressDialog(EventCoordinatorActivity.this);
-        progressDialog.setMessage("Loading Profile...");
+        progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
-        progressDialog.show();
         initaltxt = findViewById(R.id.inittxt);
 
+        arrayList = new ArrayList<>();
+        myadapter = new EventCoordinatorListAdapter(EventCoordinatorActivity.this, arrayList);
+        evelist.setAdapter(myadapter);
+
 
     }
-    private Boolean checksession()
-    {
-        SharedPreferences sharedPreferences = getSharedPreferences("aarohan",MODE_PRIVATE);
-        if(sharedPreferences.getBoolean("is",false))
-            return true;
-        else
-            return false;
-    }
+
     private void eventOfCoordinator() {
         StringRequest request = new StringRequest(Request.Method.POST, URLHelper.eventOfCoordinator, new Response.Listener<String>() {
             @Override
@@ -229,6 +127,9 @@ public class EventCoordinatorActivity extends AppCompatActivity {
                 JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                 String co_name = jsonObject1.getString("co_name");
                 String event_id = jsonObject1.getString("event_id");
+                String event_participation_category = jsonObject1.getString("event_participation_category");
+                String event_type = jsonObject1.getString("event_type");
+                String event_category = jsonObject1.getString("event_category");
                 String event_name = jsonObject1.getString("event_name");
                 String event_detail = jsonObject1.getString("event_detail");
                 String event_time = jsonObject1.getString("event_time");
@@ -236,7 +137,10 @@ public class EventCoordinatorActivity extends AppCompatActivity {
                 String event_date = jsonObject1.getString("event_date");
                 ContentValues cv = new ContentValues();
                 cv.put(EventCoordinatorDetailsTable.Event_id, event_id);
+                cv.put(EventCoordinatorDetailsTable.Event_participation_category, event_participation_category);
+                cv.put(EventCoordinatorDetailsTable.Event_type, event_type);
                 cv.put(EventCoordinatorDetailsTable.Co_name, co_name);
+                cv.put(EventCoordinatorDetailsTable.Event_category, event_category);
                 cv.put(EventCoordinatorDetailsTable.Event_date, event_date);
                 cv.put(EventCoordinatorDetailsTable.Event_time, event_time);
                 cv.put(EventCoordinatorDetailsTable.Event_location, event_location);
@@ -248,9 +152,7 @@ public class EventCoordinatorActivity extends AppCompatActivity {
             fetchCoordinatorDetails();
             progressDialog.cancel();
 
-        }
-        else
-        {
+        } else {
             progressDialog.cancel();
             setContentView(R.layout.no_event_found);
             TextView noevent = findViewById(R.id.noeventtxt);
@@ -258,5 +160,103 @@ public class EventCoordinatorActivity extends AppCompatActivity {
         }
 
     }
+
+    private void fetchCoordinatorDetails() {
+
+        DatabaseHelper db = new DatabaseHelper(EventCoordinatorActivity.this);
+        Cursor cursor = db.getReadableDatabase().rawQuery("select * from " + EventCoordinatorDetailsTable.TABLE_NAME, null);
+        Log.d("Debug", "cursor :" + cursor.toString());
+        //nametext.setText(EventCoordinatorDetailsTable.Co_name);
+
+        while (cursor.moveToNext()) {
+            Log.d("Debug", cursor.getString(1));
+            arrayList.add(new CoordinatorDataPojo(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11)));
+            nametext.setText(cursor.getString(9));
+            String j = cursor.getString(9).substring(0, 1).toUpperCase() + "";
+            initaltxt.setText(j);
+
+        }
+        myadapter.notifyDataSetChanged();
+        cursor.close();
+    }
+
+    private void methodListener() {
+        evelist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                CoordinatorDataPojo pojo = (CoordinatorDataPojo) arrayList.get(i);
+                Intent intent = new Intent(EventCoordinatorActivity.this, EventAllDetailsActivity.class);
+                intent.putExtra("eventid", pojo.getEvent_id());
+                startActivity(intent);
+            }
+        });
+        logoutbut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (checksession()) {
+                    logoutAPI();
+                    SharedPreferences sharedPreferences = getSharedPreferences("aarohan", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("email", "");
+                    editor.putString("otp", "");
+                    editor.putBoolean("is", false);
+                    editor.putString("type", "");
+                    editor.apply();
+                    DatabaseHelper db = new DatabaseHelper(EventCoordinatorActivity.this);
+                    EventCoordinatorDetailsTable.clearCoordinatorDetail(db.getWritableDatabase(), "delete from " + EventCoordinatorDetailsTable.TABLE_NAME);
+                    Toast.makeText(EventCoordinatorActivity.this, "LogoutSuccessfull", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(EventCoordinatorActivity.this, PromptLoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Intent intent = new Intent(EventCoordinatorActivity.this, PromptLoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+
+            }
+        });
+    }
+
+    private void logoutAPI() {
+        final StringRequest request = new StringRequest(Request.Method.POST, URLHelper.logOut, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("Debug", "LogoutApi");
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Debug", "Error in Api");
+            }
+        }
+        ) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<>();
+                SharedPreferences sharedPreferences = getSharedPreferences("aarohan", MODE_PRIVATE);
+                String emailprof = sharedPreferences.getString("email", "");
+                String otpprof = sharedPreferences.getString("otp", "");
+                map.put("email", emailprof);
+                map.put("otp", otpprof);
+                map.put("type", "COORDINATOR");
+                return map;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(EventCoordinatorActivity.this);
+        queue.add(request);
+
+    }
+
+
+    private Boolean checksession() {
+        SharedPreferences sharedPreferences = getSharedPreferences("aarohan", MODE_PRIVATE);
+        if (sharedPreferences.getBoolean("is", false))
+            return true;
+        else
+            return false;
+    }
+
 
 }
