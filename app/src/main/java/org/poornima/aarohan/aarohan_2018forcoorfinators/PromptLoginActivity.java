@@ -2,10 +2,13 @@ package org.poornima.aarohan.aarohan_2018forcoorfinators;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -31,6 +34,8 @@ public class PromptLoginActivity extends AppCompatActivity {
     private Button Submit_email;
     private EditText Email_id;
     private ProgressDialog progressDialog;
+    private Animation animation;
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +46,15 @@ public class PromptLoginActivity extends AppCompatActivity {
     }
 
     private void init() {
+        fragmentManager = PromptLoginActivity.this.getSupportFragmentManager();
         progressDialog = new ProgressDialog(PromptLoginActivity.this);
         progressDialog.setCancelable(true);
         progressDialog.setMessage("Verifying Email...");
         Email_id = findViewById(R.id.email);
         Submit_email = findViewById(R.id.submit_email);
+        animation = AnimationUtils.loadAnimation(PromptLoginActivity.this,
+                R.anim.rightexit);
+
     }
 
     private void methodListeners() {
@@ -54,6 +63,7 @@ public class PromptLoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 progressDialog.show();
                 verifyEmail(Email_id.getText().toString());
+                overridePendingTransition(R.anim.leftenter, R.anim.rightexit);
             }
         });
     }

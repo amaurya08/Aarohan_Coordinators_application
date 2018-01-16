@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -38,6 +40,7 @@ public class OTPActivity extends AppCompatActivity {
     private Button verify_otp;
     private String intentEmail;
     private ProgressDialog progressDialog;
+    private TextView resend,countdownTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,31 @@ public class OTPActivity extends AppCompatActivity {
                 VerifyOtp(otp_box.getText().toString(), intentEmail);
             }
         });
+        resend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                resendotp();
+            }
+    });
+    }
+    private void resendotp() {
+        resend.setVisibility(View.INVISIBLE);
+        countdownTextView.setVisibility(View.VISIBLE);
+        sendOtp(intentEmail);
+        countdown();
+    }
+    private void countdown() {
+        new CountDownTimer(20000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                String setText="Retry after: " + millisUntilFinished / 1000 +"seconds";
+                countdownTextView.setText(setText);
+            }
+            public void onFinish() {
+                resend.setVisibility(View.VISIBLE);
+                countdownTextView.setVisibility(View.INVISIBLE);
+            }
+        }.start();
     }
 
     private void VerifyOtp(final String userOtp, final String email) {
@@ -229,6 +257,8 @@ public class OTPActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(OTPActivity.this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Verifying OTP...");
+        resend = findViewById(R.id.resend);
+        countdownTextView = findViewById(R.id.countdownTimer);
 
     }
 }

@@ -89,12 +89,14 @@ public class RegistrationActivity extends AppCompatActivity {
                 Toast.makeText(RegistrationActivity.this,"LogoutSuccessfull",Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(RegistrationActivity.this,PromptLoginActivity.class);
                 startActivity(intent);
+                finish();
 
             }
             else
             {
                 Intent intent = new Intent(RegistrationActivity.this,PromptLoginActivity.class);
                 startActivity(intent);
+                finish();
             }
                 return true;
             }
@@ -196,17 +198,6 @@ public class RegistrationActivity extends AppCompatActivity {
         if (error.equals("false")) {
             String message = jsonObject.getString("message");
             Log.d("DEBUG",""+message);
-           /* View dialogview= factory.inflate(R.layout.dialog_scanner_result,null);
-            AlertDialog dialog = new AlertDialog.Builder(RegistrationActivity.this).create();
-            dialog.setView(dialogview);
-            Button okbut = dialogview.findViewById(R.id.okbut);
-            Button cancelbut = dialogview.findViewById(R.id.cancelbut);
-            TextView regno = dialogview.findViewById(R.id.registration_no);
-            TextView name = dialogview.findViewById(R.id.nametxt);
-            regno.setText(regid);*/
-            //ToDO
-
-
             //Inserting Into Database
             DatabaseHelper db = new DatabaseHelper(RegistrationActivity.this);
             RegistrationDetailTable.deleteTableData(db.getWritableDatabase(), "delete from " + RegistrationDetailTable.TABLE_NAME);
