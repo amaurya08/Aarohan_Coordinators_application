@@ -14,7 +14,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-
 ;import org.poornima.aarohan.aarohan_2018forcoorfinators.Adapter.EventStudentListAdapt;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.DBHandler.DatabaseHelper;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.Pojo.EventStudentPojo;
@@ -22,13 +21,6 @@ import org.poornima.aarohan.aarohan_2018forcoorfinators.R;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.Table.EventStudentsTable;
 
 import java.util.ArrayList;
-
-
-
-/**
- * Created by ADMIN on 29-Dec-17.
- */
-
 public class PresentFrag extends Fragment
 {
     private ArrayList<EventStudentPojo> arrayList;
@@ -36,9 +28,6 @@ public class PresentFrag extends Fragment
     public PresentFrag()
     {
     }
-
-
-
     @Nullable
     @Override
 
@@ -68,7 +57,6 @@ public class PresentFrag extends Fragment
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 arrayList.add(new EventStudentPojo(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
-
             }
         }
         else
@@ -86,7 +74,5 @@ public class PresentFrag extends Fragment
         super.onResume();
         arrayList.clear();
         fetchAllStudent();
-
-
     }
 }

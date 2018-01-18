@@ -16,7 +16,7 @@ public class EventStudentsTable {
     public final static String Ev_event_att = "ev_event_att";
     private static final String createTable = "CREATE TABLE `EventStudentList` ( `stu_name` TEXT NOT NULL, `stu_reg_no` TEXT NOT NULL," +
             " `stu_college` TEXT, `stu_email` TEXT NOT NULL, `stu_contact` TEXT," +
-            " `ev_event_att` TEXT DEFAULT 0, PRIMARY KEY(`stu_reg_no`) )";
+            " `ev_event_att` TEXT NOT NULL, PRIMARY KEY(`stu_reg_no`) )";
 
     public static void createTable(SQLiteDatabase db)
     {

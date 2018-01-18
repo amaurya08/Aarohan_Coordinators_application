@@ -19,11 +19,12 @@
                android:layout_height="120sp"
                android:layout_centerHorizontal="true"
                android:layout_centerVertical="true"
-               android:src="@color/colorPrimaryDark"
+               android:src="@color/blueTheme"
                />
            <TextView
                android:layout_width="100dp"
                android:layout_height="100dp"
+               android:fontFamily="@font/comicsansmsregular"
                android:layout_centerHorizontal="true"
                android:layout_centerVertical="true"
                android:text="N"
@@ -37,18 +38,15 @@
                android:layout_height="wrap_content"
                android:text="Name"
                android:id="@+id/nametxt"
+               android:fontFamily="@font/comicsansmsregular"
                android:gravity="center"
+               android:textColor="@color/colorPrimaryDark"
                android:layout_below="@+id/inittxt"
-               android:layout_marginTop="40sp"
+               android:layout_marginTop="25dp"
                android:textSize="30sp"
                android:textStyle="bold"
                />
-           <Button
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="LOGOUT"
-               android:id="@+id/logoutbut"
-               />
+
        </RelativeLayout>
 
    </LinearLayout>
@@ -56,13 +54,31 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:weightSum="3"
+        android:orientation="vertical"
+        >
 
         <ListView
             android:id="@+id/eventlist"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2.5"
+            android:dividerHeight="5dp"
+            android:fontFamily="@font/comicsansmsregular"
             android:padding="10dp" />
+
+
+        <Button
+            android:id="@+id/logoutbut"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:background="@drawable/background_button_main_transparent"
+            android:fontFamily="@font/comicsansmsregular"
+            android:text="@string/log_in"
+            android:textColor="@color/colorPrimaryDark"/>
     </LinearLayout>
 
 

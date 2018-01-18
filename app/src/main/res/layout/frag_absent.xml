@@ -10,6 +10,7 @@
             android:layout_height="match_parent"
             android:id="@+id/List1"
             android:padding="5dp"
+            android:fontFamily="@font/comicsansmsregular"
             android:dividerHeight="2dp">
         </ListView>
 

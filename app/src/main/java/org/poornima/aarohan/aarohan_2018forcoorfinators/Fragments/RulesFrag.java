@@ -40,30 +40,9 @@ public class RulesFrag extends Fragment
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
          View customview= inflater.inflate(R.layout.frag_rules, container, false);
         details=customview.findViewById(R.id.detailtxt);
-        fetchDetails();
         return customview;
     }
 
-    private void fetchDetails() {
-        DatabaseHelper db = new DatabaseHelper(getContext());
-        Cursor cursor = db.getReadableDatabase().rawQuery("select * from "+ EventCoordinatorDetailsTable.TABLE_NAME + " WHERE " + EventCoordinatorDetailsTable.Event_id + "=?" ,new String[]{getArguments().getString("eventid")});
-        Log.d("Debug","cursor :"+cursor.toString());
-        //nametext.setText(EventCoordinatorDetailsTable.Co_name);
 
-        while (cursor.moveToNext())
-        {
-            String s;
-            s=("Title:"+cursor.getString(1))
-                    .concat("<p>"+"Date:"+cursor.getString(7)+"</p>")
-                    .concat("<p>"+"Time:"+cursor.getString(8)+"</p>")
-                    .concat("<p>"+"Venue:"+cursor.getString(6)+"</p>")
-                    .concat("<p>"+"Event Type"+cursor.getString(4)+"</p>")
-                    .concat("<p>"+"Participation Category"+cursor.getString(3)+"</p>")
-                    .concat("<p>"+"Event Category"+cursor.getString(2)+"</p>")
-                    .concat("<p>"+"Description:"+cursor.getString(5));
-            details.setText(Html.fromHtml(s));
-        }
-        cursor.close();
 
-    }
 }

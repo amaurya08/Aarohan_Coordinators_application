@@ -185,7 +185,7 @@ public class EventCoordinatorActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 CoordinatorDataPojo pojo = (CoordinatorDataPojo) arrayList.get(i);
-                Intent intent = new Intent(EventCoordinatorActivity.this, EventAllDetailsActivity.class);
+                Intent intent = new Intent(EventCoordinatorActivity.this, EventCameraActivity.class);
                 intent.putExtra("eventid", pojo.getEvent_id());
                 startActivity(intent);
             }
@@ -199,6 +199,7 @@ public class EventCoordinatorActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("email", "");
                     editor.putString("otp", "");
+                    editor.putString("cid","");
                     editor.putBoolean("is", false);
                     editor.putString("type", "");
                     editor.apply();

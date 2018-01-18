@@ -11,6 +11,7 @@
         android:textStyle="bold"
         android:textSize="30dp"
         android:textColor="#eb309afe"
+        android:fontFamily="@font/comicsansmsregular"
         android:gravity="center"
         android:id="@+id/maintxt"
         android:background="@drawable/gray_rect" />
