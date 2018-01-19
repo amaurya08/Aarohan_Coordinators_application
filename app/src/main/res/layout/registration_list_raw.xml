@@ -9,7 +9,9 @@
     android:layout_height="wrap_content"
     android:text="Name"
     android:id="@+id/stu_name"
-    android:textSize="25sp"
+    android:textColor="@color/grayTheme"
+    android:textSize="22sp"
+    android:paddingLeft="15sp"
     android:fontFamily="@font/comicsansmsregular"
     android:gravity="left"/>
     <TextView
@@ -18,6 +20,8 @@
         android:text="Registration Number"
         android:id="@+id/registration_no"
         android:fontFamily="@font/comicsansmsregular"
+        android:paddingLeft="15sp"
+        android:textColor="@color/grayTheme"
         android:textSize="20sp"
         android:gravity="left"/>
 </LinearLayout>

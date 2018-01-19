@@ -46,14 +46,11 @@ public class PromptLoginActivity extends AppCompatActivity {
     }
 
     private void init() {
-        fragmentManager = PromptLoginActivity.this.getSupportFragmentManager();
         progressDialog = new ProgressDialog(PromptLoginActivity.this);
         progressDialog.setCancelable(true);
         progressDialog.setMessage("Verifying Email...");
         Email_id = findViewById(R.id.email);
         Submit_email = findViewById(R.id.submit_email);
-        animation = AnimationUtils.loadAnimation(PromptLoginActivity.this,
-                R.anim.rightexit);
 
     }
 
@@ -63,7 +60,7 @@ public class PromptLoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 progressDialog.show();
                 verifyEmail(Email_id.getText().toString());
-                overridePendingTransition(R.anim.leftenter, R.anim.rightexit);
+                overridePendingTransition(R.anim.pushupin, R.anim.pushupout);
             }
         });
     }

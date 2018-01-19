@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#d1c7c7"
     tools:context="org.poornima.aarohan.aarohan_2018forcoorfinators.OTPActivity">
 
     <EditText
@@ -17,6 +18,7 @@
         android:ems="10"
         android:gravity="left"
         android:hint="Enter OTP Here"
+        android:backgroundTint="@color/blueTheme"
         android:inputType="number" />
 
     <TextView
@@ -24,7 +26,7 @@
         android:id="@+id/resend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/blueTheme"
         android:text="Resend OTP"
         android:layout_centerHorizontal="true"
         android:layout_above="@id/verifyotp"/>
@@ -50,6 +52,4 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Verify OTP" />
-
-
 </RelativeLayout>
