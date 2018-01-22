@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import org.poornima.aarohan.aarohan_2018forcoorfinators.Table.AccomodationStudentTable;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.Table.EventCoordinatorDetailsTable;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.Table.EventStudentsTable;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.Table.RegistrationDetailTable;
@@ -25,6 +26,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             EventCoordinatorDetailsTable.createTable(db);
             EventStudentsTable.createTable(db);
             RegistrationDetailTable.createTable(db);
+            AccomodationStudentTable.createTable(db);
         }
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

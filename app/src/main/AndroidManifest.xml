@@ -33,12 +33,14 @@
         <activity android:name=".PromptLoginActivity" />
         <activity android:name=".EventCoordinatorActivity" />
         <activity android:name=".EventAllDetailsActivity" />
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
         <activity android:name=".OTPActivity" />
         <activity android:name=".BarcodeCaptureActivity" />
         <activity android:name=".RegistrationActivity" />
+        <activity android:name=".CheckInActivity" />
         <activity android:name=".AccomodationActivity" />
-        <activity android:name=".EventCameraActivity"></activity>
+        <activity android:name=".EventCameraActivity" />
+        <activity android:name=".CheckOutActivity"></activity>
     </application>
 
 </manifest>

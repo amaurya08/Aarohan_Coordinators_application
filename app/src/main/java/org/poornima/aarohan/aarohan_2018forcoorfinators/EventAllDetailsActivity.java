@@ -72,7 +72,7 @@ public class EventAllDetailsActivity extends AppCompatActivity {
         //arrayList = new ArrayList<>();
         viewpager = findViewById(R.id.viewpager);
         tablayout = findViewById(R.id.tabs);
-        scan = findViewById(R.id.scanner);
+        //scan = findViewById(R.id.scanner);
 
         //studentsOfEventAPI();
         setupViewPager(viewpager);

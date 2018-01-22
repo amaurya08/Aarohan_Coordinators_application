@@ -4,8 +4,6 @@ import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-
-
 public class EventStudentsTable {
     public final static String TABLE_NAME = "EventStudentList";
     public final static String Stu_name = "stu_name";

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="10"
-    android:layout_height="match_parent">
-
+    tools:context="org.poornima.aarohan.aarohan_2018forcoorfinators.CheckOutActivity">
     <ListView
         android:id="@+id/listcheck"
         android:layout_width="match_parent"
@@ -24,6 +24,7 @@
         android:fontFamily="@font/comicsansmsregular"
         android:textColor="@color/colorPrimaryDark"
         android:text="Check In Scan"
-        android:id="@+id/cambutton"
+        android:id="@+id/checkOutScan"
         />
+
 </LinearLayout>
