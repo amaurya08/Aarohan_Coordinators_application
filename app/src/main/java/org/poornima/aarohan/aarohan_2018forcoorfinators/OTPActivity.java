@@ -40,7 +40,7 @@ public class OTPActivity extends AppCompatActivity {
     private Button verify_otp;
     private String intentEmail;
     private ProgressDialog progressDialog;
-    private TextView resend,countdownTextView;
+    private TextView resend, countdownTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,21 +65,24 @@ public class OTPActivity extends AppCompatActivity {
             public void onClick(View view) {
                 resendotp();
             }
-    });
+        });
     }
+
     private void resendotp() {
         resend.setVisibility(View.INVISIBLE);
         countdownTextView.setVisibility(View.VISIBLE);
         sendOtp(intentEmail);
         countdown();
     }
+
     private void countdown() {
         new CountDownTimer(20000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                String setText="Retry after: " + millisUntilFinished / 1000 +"seconds";
+                String setText = "Retry after: " + millisUntilFinished / 1000 + "seconds";
                 countdownTextView.setText(setText);
             }
+
             public void onFinish() {
                 resend.setVisibility(View.VISIBLE);
                 countdownTextView.setVisibility(View.INVISIBLE);
@@ -138,67 +141,46 @@ public class OTPActivity extends AppCompatActivity {
         String co_id = jsonObject1.getString("co_id");
         String co_type = jsonObject1.getString("co_type");
         if (error.equals("false")) {
-            makeSession(co_id,co_type);
-            switch (co_type) {
-                case "EVENT_COOR":
-                    Intent intent = new Intent(OTPActivity.this, EventCoordinatorActivity.class);
-                    startActivity(intent);
-                    finish();
-                    break;
+            if (makeSession(co_id, co_type))
+                switch (co_type) {
+                    case "EVENT_COOR":
+                        //eventOfCoordinator();
+                        Intent intent = new Intent(OTPActivity.this, EventCoordinatorActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
 
-                case "SECURITY":
-                    Intent intent1 = new Intent(OTPActivity.this, RegistrationActivity.class);
-                    startActivity(intent1);
-                    finish();
-                    break;
+                    case "SECURITY":
+                        Intent intent1 = new Intent(OTPActivity.this, RegistrationActivity.class);
+                        startActivity(intent1);
+                        finish();
+                        break;
 
-                case "HOSPITALITY":
-                    Intent intent2 = new Intent(OTPActivity.this, AccomodationActivity.class);
-                    startActivity(intent2);
-                    finish();
-                    break;
+                    case "HOSPITALITY":
+                        Intent intent2 = new Intent(OTPActivity.this, AccomodationActivity.class);
+                        startActivity(intent2);
+                        finish();
+                        break;
 
-                default:
-                    Toast.makeText(OTPActivity.this, "NOT Forwarded", Toast.LENGTH_SHORT).show();
-                    break;
-
-            }
-
-            /*if ((getIntent().getStringExtra("modulename").toString()).equals("module1")){*/
-            //final Intent intent = new Intent(OTPActivity.this, EventCoordinatorActivity.class);
-            //startActivity(intent);
-            //finish();
-            //eventOfCoordinator();
-
-            /*}
-            else if ((getIntent().getStringExtra("modulename").toString()).equals("module2")){
-                Intent intent = new Intent(OTPActivity.this,EventCoordinatorActivity.class);
-                startActivity(intent);
-                finish();
-            }
-           else if ((getIntent().getStringExtra("modulename").toString()).equals("module3")){
-                Intent intent = new Intent(OTPActivity.this,EventCoordinatorActivity.class);
-                startActivity(intent);
-                finish();
-            }
-            else{
-                Log.d("DEBUG","module error");
-            }
-        }*/} else
+                    default:
+                        Toast.makeText(OTPActivity.this, "NOT Forwarded", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+        } else
             Toast.makeText(this, "" + message, Toast.LENGTH_SHORT).show();
     }
 
-
-    private void makeSession(String c_id, String c_type) {
+    private boolean makeSession(String c_id, String c_type) {
         SharedPreferences sharedPref = getSharedPreferences("aarohan", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("email", intentEmail);
         editor.putString("otp", otp_box.getText().toString());
         editor.putString("type", c_type);
-        editor.putString("cid",c_id);
+        editor.putString("cid", c_id);
         editor.putBoolean("is", true);
         Log.d(TAG, "Making Session with " + intentEmail + " " + otp_box.getText().toString() + " " + c_type);
         editor.apply();
+        return true;
     }
 
     private void sendOtp(final String email) {
@@ -244,7 +226,7 @@ public class OTPActivity extends AppCompatActivity {
             if (error.equals("false")) {
                 Toast.makeText(this, "" + message, Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Email ID is not Registered. Please Contact Web / Aplication Developer", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Email ID is not Registered. Please Contact Web / Application Developer", Toast.LENGTH_SHORT).show();
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -261,4 +243,6 @@ public class OTPActivity extends AppCompatActivity {
         countdownTextView = findViewById(R.id.countdownTimer);
 
     }
+
+
 }

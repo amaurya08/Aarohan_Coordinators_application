@@ -118,7 +118,7 @@ public class EventCameraActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 try {
-                    Toast.makeText(EventCameraActivity.this,"Api list student link successfully",Toast.LENGTH_LONG).show();
+                    //Toast.makeText(EventCameraActivity.this,"Api list student link successfully",Toast.LENGTH_LONG).show();
                     parseStudentList(response);
                     Log.d("Debug","Api list student link successfully");
                 } catch (JSONException e) {

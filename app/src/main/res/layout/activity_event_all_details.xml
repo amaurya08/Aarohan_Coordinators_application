@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/whiteTheme"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <android.support.design.widget.AppBarLayout
         android:layout_height="wrap_content"
@@ -14,6 +15,10 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+            app:tabTextColor="#e0e0e0"
+            app:tabIndicatorColor="@color/whiteTheme"
+            android:elevation="6dp"
+            app:tabSelectedTextColor="@color/whiteTheme"
         app:tabMode="fixed"
         app:tabGravity="fill"/>
         </android.support.design.widget.AppBarLayout>

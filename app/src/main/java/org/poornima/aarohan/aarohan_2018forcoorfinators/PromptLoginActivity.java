@@ -49,6 +49,7 @@ public class PromptLoginActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(PromptLoginActivity.this);
         progressDialog.setCancelable(true);
         progressDialog.setMessage("Verifying Email...");
+
         Email_id = findViewById(R.id.email);
         Submit_email = findViewById(R.id.submit_email);
 

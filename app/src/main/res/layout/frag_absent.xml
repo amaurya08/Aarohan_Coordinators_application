@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     tools:context="org.poornima.aarohan.aarohan_2018forcoorfinators.Fragments.AbsentFrag">
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/List1"
-            android:padding="5dp"
-            android:fontFamily="@font/comicsansmsregular"
-            android:dividerHeight="2dp">
-        </ListView>
+    <ListView
+        android:id="@+id/List1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/whiteTheme"
+        android:dividerHeight="2dp"
+        android:fontFamily="@font/comicsansmsregular"
+        android:padding="5dp"/>
 
 </RelativeLayout>

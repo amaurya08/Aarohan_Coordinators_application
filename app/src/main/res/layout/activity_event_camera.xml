@@ -1,81 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/shadow_button"
+    android:orientation="vertical"
+    android:weightSum="10"
     tools:context="org.poornima.aarohan.aarohan_2018forcoorfinators.EventCameraActivity">
 
-   <ScrollView
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:layout_above="@id/stulist"
-       >
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:layout_margin="5dp"
-           android:orientation="vertical">
-       <TextView
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:id="@+id/evename"
-           android:text="Eventname"
-           android:gravity="center"
-           android:fontFamily="@font/comicsansmsregular"
-           android:textColor="@color/colorPrimaryDark"
-           android:singleLine="false"
-           android:textSize="30sp"
-           />
-       <TextView
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:text="Event Details"
-           android:gravity="center"
-           android:textColor="@color/colorPrimaryDark"
-           android:fontFamily="@font/comicsansmsregular"
-           android:textSize="17sp" />
-
-           <TextView
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:id="@+id/ruletxt"
-               android:textColor="@color/blueTheme"
-               android:fontFamily="@font/comicsansmsregular"
-               android:maxLines="50"
-               android:singleLine="false"
-               android:text="Rules Are As follows..."
-               />
-
-       </LinearLayout>
-
-   </ScrollView>
-
-   <Button
-       android:layout_width="250dp"
-       android:layout_height="60dp"
-       android:textSize="18sp"
-       android:layout_alignParentBottom="true"
-       android:layout_centerHorizontal="true"
-       android:layout_marginBottom="20dp"
-       android:background="@drawable/background_button_main_transparent"
-       android:fontFamily="@font/comicsansmsregular"
-       android:textColor="@color/colorPrimaryDark"
-       android:text="Click to Scan"
-       android:id="@+id/scanbut"
-       />
-    <Button
-        android:layout_width="250dp"
-        android:layout_height="60dp"
-        android:layout_centerHorizontal="true"
-        android:textSize="18sp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/background_button_main_transparent"
+    <TextView
+        android:id="@+id/evename"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/blueTheme"
         android:fontFamily="@font/comicsansmsregular"
-        android:textColor="@color/colorPrimaryDark"
-        android:id="@+id/stulist"
-        android:layout_above="@+id/scanbut"
-        android:text="Student Of List"
-        />
+        android:gravity="center"
+        android:singleLine="false"
+        android:text="Eventname"
+        android:textColor="@color/whiteTheme"
+        android:textSize="25sp"
+        android:textStyle="bold" />
 
-</RelativeLayout>
+    <ScrollView
+        android:id="@+id/scrolldetails"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/evename"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="8.7">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/comicsansmsregular"
+                android:gravity="center"
+                android:padding="3dp"
+                android:text="Event Details"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/ruletxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/comicsansmsregular"
+                android:maxLines="300"
+                android:padding="5dp"
+                android:singleLine="false"
+                android:text="Rules Are As follows..."
+                android:textColor="@color/blueTheme"
+                android:textSize="15dp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/relabut"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="5dp"
+        android:layout_weight="1.2"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/scanbut"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_layout_background"
+            android:fontFamily="@font/comicsansmsregular"
+            android:padding="5dp"
+            android:text="Click to Scan"
+            android:textColor="@color/whiteTheme"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/stulist"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_layout_background"
+            android:fontFamily="@font/comicsansmsregular"
+            android:padding="5dp"
+            android:text="List of Students"
+            android:textColor="@color/whiteTheme"
+            android:textSize="15sp" />
+    </LinearLayout>
+</LinearLayout>
