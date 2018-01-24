@@ -1,57 +1,76 @@
 package org.poornima.aarohan.aarohan_2018forcoorfinators;
+
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ListAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import android.app.ActionBar;
-import android.view.MenuItem;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.vision.barcode.Barcode;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.poornima.aarohan.aarohan_2018forcoorfinators.AarohanCoordinatorClass.NetWorkManager;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.AarohanCoordinatorClass.URLHelper;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.Adapter.registration_page_adaptor;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.DBHandler.DatabaseHelper;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.Pojo.RegistrationDataPojo;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.Table.EventCoordinatorDetailsTable;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.Table.RegistrationDetailTable;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 public class RegistrationActivity extends AppCompatActivity {
 
-    FloatingActionButton cam;
+    private Button cam, logout;
     private static final int RC_BARCODE_CAPTURE = 9001;
     private ListView mylist;
+    private static final String TAG = "debug";
     private ProgressDialog progressDialog;
     private ArrayList<RegistrationDataPojo> arrayList;
     private TextView co_email;
+    private registration_page_adaptor registration_adapter;
+    private TextView regisNo;
+
+    private void init() {
+        arrayList = new ArrayList<>();
+        co_email = findViewById(R.id.co_email);
+        mylist = findViewById(R.id.mylist);
+        regisNo = findViewById(R.id.registration_no);
+        cam = findViewById(R.id.cambutton);
+        logout = findViewById(R.id.logoutbutton);
+        progressDialog = new ProgressDialog(RegistrationActivity.this);
+        progressDialog.setCancelable(false);
+        registration_adapter = new registration_page_adaptor(RegistrationActivity.this, arrayList);
+        mylist.setAdapter(registration_adapter);
+        progressDialog.setMessage("please wait...");
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +80,15 @@ public class RegistrationActivity extends AppCompatActivity {
         String emailprof = sharedPreferences.getString("email", "");
         co_email.setText(emailprof);
         progressDialog.show();
-        listofstuRegistered();
+        if (NetWorkManager.checkInternetAccess(RegistrationActivity.this)) {
+            listofstuRegistered();
+        }
+        else
+        {
+            progressDialog.cancel();
+            Toast.makeText(RegistrationActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
+
+        }
         methodListener();
     }
 
@@ -70,7 +97,7 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 progressDialog.cancel();
-                Log.d("DEBUG","Response Recieved\n"+response);
+                Log.d(TAG, "Response Recieved\n" + response);
                 try {
                     parseRegisteredstulist(response);
                 } catch (JSONException e) {
@@ -82,7 +109,8 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progressDialog.cancel();
-                Toast.makeText(RegistrationActivity.this, "Error in loading list of registered student", Toast.LENGTH_LONG).show();
+                Log.d(TAG, "Unable to reach server");
+                Toast.makeText(RegistrationActivity.this, "Unable to reach server", Toast.LENGTH_LONG).show();
             }
         }) {
             @Override
@@ -91,151 +119,154 @@ public class RegistrationActivity extends AppCompatActivity {
                 SharedPreferences sharedPreferences = getSharedPreferences("aarohan", MODE_PRIVATE);
                 String emailprof = sharedPreferences.getString("email", "");
                 String otpprof = sharedPreferences.getString("otp", "");
-                String cidprof = sharedPreferences.getString("cid","");
+                String cidprof = sharedPreferences.getString("cid", "");
                 map.put("email", emailprof);
                 map.put("otp", otpprof);
-                map.put("co_id",cidprof);
-                Log.d("DEBUG",map.toString());
+                map.put("co_id", cidprof);
+                Log.d(TAG, map.toString());
                 return map;
             }
         };
         RequestQueue queue = Volley.newRequestQueue(RegistrationActivity.this);
+        request.setRetryPolicy(
+                new DefaultRetryPolicy(
+                        10000,
+                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+                )/**/
+        );
         queue.add(request);
     }
-     private void parseRegisteredstulist(String response) throws JSONException
-    {
+
+    private void parseRegisteredstulist(String response) throws JSONException {
         JSONObject jsonObject = new JSONObject(response);
         String error = jsonObject.getString("error");
         String message = jsonObject.getString("message");
         if (error.equals("false")) {
-            Log.d("DEBUG",""+message);
+            Log.d(TAG, "" + message);
             JSONArray jsonArray = new JSONArray(jsonObject.getString("message"));
-            Log.d("DEBUG", jsonArray.toString());
+            Log.d(TAG, jsonArray.toString());
+
             DatabaseHelper db = new DatabaseHelper(RegistrationActivity.this);
-            //RegistrationDetailTable.deleteTableData(db.getWritableDatabase(), "delete from " + TableMyeventsDetails.TABLE_NAME);
-            for (int i = 0; i < jsonArray.length(); i++)
-            {
+            RegistrationDetailTable.deleteTableData(db.getWritableDatabase(), "delete from " + RegistrationDetailTable.TABLE_NAME);
+
+            Log.d(TAG, db.getDatabaseName());
+            for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObjectNode = jsonArray.getJSONObject(i);
                 String stuname = jsonObjectNode.getString("stu_name");
                 String sturegid = jsonObjectNode.getString("stu_reg_no");
                 ContentValues cv = new ContentValues();
                 cv.put(RegistrationDetailTable.stu_name, stuname);
                 cv.put(RegistrationDetailTable.registrationId, sturegid);
-                long j = RegistrationDetailTable.insert(db.getWritableDatabase(), cv);
-                Log.d("DEBUG", "DATA INSERTED" + j);
-            }
-                Cursor cursor = db.getReadableDatabase().rawQuery("SELECT * FROM " + RegistrationDetailTable.TABLE_NAME, null);
-                while(cursor.moveToNext()){
-                    arrayList.add(new RegistrationDataPojo(cursor.getString(0),cursor.getString(1)));
-                }
-                cursor.close();
-                registration_page_adaptor registration_adapter=new registration_page_adaptor(RegistrationActivity.this,arrayList);
-                mylist.setAdapter(registration_adapter);
+                Log.d(TAG, db.getWritableDatabase().getPath());
+                if (RegistrationDetailTable.insert(db.getWritableDatabase(), cv) > 0)
+                    Log.d(TAG, "DATA INSERTED");
+                else
+                    Log.d(TAG, "Error");
 
             }
+            arrayList.clear();
+            Cursor cursor = db.getReadableDatabase().rawQuery("SELECT * FROM " + RegistrationDetailTable.TABLE_NAME, null);
+            while (cursor.moveToNext()) {
+                // Toast.makeText(this, ""+cursor.getColumnName(2), Toast.LENGTH_SHORT).show();
+                arrayList.add(new RegistrationDataPojo(cursor.getString(0), cursor.getString(1)));
+            }
+            cursor.close();
+            registration_adapter.notifyDataSetChanged();
 
-        else
-        {
-            Log.d("DEBUG",""+jsonObject.getString("message"));
-            Toast.makeText(RegistrationActivity.this,"No student has been registered by you till now",Toast.LENGTH_SHORT).show();
+        } else {
+            Log.d(TAG, "Error occured with " + jsonObject.getString("message"));
+            Toast.makeText(RegistrationActivity.this, "No student has been registered by you till now", Toast.LENGTH_SHORT).show();
         }
-
     }
-
 
     private void methodListener() {
         cam.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
-                Intent intent = new Intent(RegistrationActivity.this,BarcodeCaptureActivity.class);
-                startActivityForResult(intent,RC_BARCODE_CAPTURE);
+            public void onClick(View view) {
+                Intent intent = new Intent(RegistrationActivity.this, BarcodeCaptureActivity.class);
+                startActivityForResult(intent, RC_BARCODE_CAPTURE);
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logoutAPI();
+                SharedPreferences sharedPreferences = getSharedPreferences("aarohan", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("email", "");
+                editor.putString("otp", "");
+                editor.putBoolean("is", false);
+                editor.putString("type", "");
+                editor.apply();
+                DatabaseHelper db = new DatabaseHelper(RegistrationActivity.this);
+                EventCoordinatorDetailsTable.clearCoordinatorDetail(db.getWritableDatabase(), "delete from " + RegistrationDetailTable.TABLE_NAME);
+                Toast.makeText(RegistrationActivity.this, "LogoutSuccessfull", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(RegistrationActivity.this, PromptLoginActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
 
-    private void init() {
-        arrayList = new ArrayList<>();
-        co_email=findViewById(R.id.co_email);
-        mylist=findViewById(R.id.mylist);
-        cam= findViewById(R.id.cambutton);
-        progressDialog=new ProgressDialog(RegistrationActivity.this);
-        progressDialog.setCancelable(false);
-        progressDialog.setMessage("please wait...");
-    }
+ /*   private void showStudentDetail(RegistrationDataPojo student) {
+        LayoutInflater factory = LayoutInflater.from(RegistrationActivity.this);
+        final View dilog_view= factory.inflate(R.layout.regdialogue_student_info,null);
+        final AlertDialog dialog_Event_detail = new AlertDialog.Builder(RegistrationActivity.this).create();
+        dialog_Event_detail.setView(dilog_view);
+        ((TextView)dilog_view.findViewById(R.id.profname)).setText(student.getStuName());
+        ((TextView)dilog_view.findViewById(R.id.profreg)).setText(student.getStuId());
+        ((TextView)dilog_view.findViewById(R.id.profclg)).setText(student.getStuclg());
+        dialog_Event_detail.show();
+       // ((ImageView)dilog_view.findViewById(R.id.myimgreg)).ssclg);
+    }*/
 
-    @Override
-        public boolean onOptionsItemSelected (MenuItem item){
-            int id = item.getItemId();
-            if (id == R.id.action_logout)
-            {
-                logoutAPI();
-                SharedPreferences sharedPreferences = getSharedPreferences("aarohan",MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("email","");
-                editor.putString("otp","");
-                editor.putBoolean("is",false);
-                editor.putString("type","");
-                editor.apply();
-                DatabaseHelper db = new DatabaseHelper(RegistrationActivity.this);
-                EventCoordinatorDetailsTable.clearCoordinatorDetail(db.getWritableDatabase(), "delete from " + RegistrationDetailTable.TABLE_NAME);
-                Toast.makeText(RegistrationActivity.this,"LogoutSuccessfull",Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(RegistrationActivity.this,PromptLoginActivity.class);
-                startActivity(intent);
-                finish();
-
-            }
-                return true;
-            }
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode==RC_BARCODE_CAPTURE)
-        {
-            if(resultCode== RC_BARCODE_CAPTURE)
-            {
-                if(data!=null)
-                {
+        if (requestCode == RC_BARCODE_CAPTURE) {
+            if (resultCode == RC_BARCODE_CAPTURE) {
+                if (data != null) {
 
                     String barcodeValue = data.getStringExtra("barcodeValue");
-                    Log.d("DEBUG","Data Scanned"+ barcodeValue);
+                    Log.d(TAG, "Data Scanned" + barcodeValue);
                     int flag = 0;
-                    for(int i=0;i<arrayList.size();i++)
-                    {
-                        if(arrayList.get(i).getStuId().equals(barcodeValue))
-                        {
-                            Toast.makeText(RegistrationActivity.this,"Already Exist",Toast.LENGTH_LONG).show();
-                            Log.d("DEBUG","Already Exist");
-                            flag=1;
+                    for (int i = 0; i < arrayList.size(); i++) {
+                        if (arrayList.get(i).getStuId().equals(barcodeValue)) {
+                            Toast.makeText(RegistrationActivity.this, "Already Exist", Toast.LENGTH_LONG).show();
+                            Log.d(TAG, "Already Exist");
+                            flag = 1;
                             break;
                         }
                     }
-                    if(flag==0)
-                    {
-                        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        String timestamp =sdf.format(new Date());
-                        progressDialog.show();
-                        registrationDetail(barcodeValue,timestamp);
-                    }
-                    else
-                    {
+                    if (flag == 0) {
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        String timestamp = sdf.format(new Date());
+                        if (NetWorkManager.checkInternetAccess(RegistrationActivity.this)) {
+                            progressDialog.show();
+                            registrationDetail(barcodeValue, timestamp);
+                        } else {
+                            Toast.makeText(RegistrationActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
                         Toast.makeText(this, "Already Exist !", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
-        }
-        else {
+        } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
-    private void registrationDetail(String barcodeValueData,String timeStampData) {
+
+    private void registrationDetail(String barcodeValueData, String timeStampData) {
         final String timeStamp = timeStampData;
         final String value = barcodeValueData;
         StringRequest request = new StringRequest(Request.Method.POST, URLHelper.SecurityCheck, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-               try {
+                try {
                     progressDialog.cancel();
-                    Log.d("DEBUG","Response Recieved\n"+response);
-                    parseRegistrationDetail(response,value);
+                    Log.d(TAG, "Response Recieved\n" + response);
+                    parseRegistrationDetail(response, value);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -245,7 +276,7 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progressDialog.cancel();
-                Toast.makeText(RegistrationActivity.this, "Error in loading details of registration", Toast.LENGTH_LONG).show();
+                Toast.makeText(RegistrationActivity.this, "Can not reach to server", Toast.LENGTH_LONG).show();
             }
         }) {
             @Override
@@ -254,80 +285,104 @@ public class RegistrationActivity extends AppCompatActivity {
                 SharedPreferences sharedPreferences = getSharedPreferences("aarohan", MODE_PRIVATE);
                 String emailprof = sharedPreferences.getString("email", "");
                 String otpprof = sharedPreferences.getString("otp", "");
-                String cidprof = sharedPreferences.getString("cid","");
+                String cidprof = sharedPreferences.getString("cid", "");
                 map.put("email", emailprof);
                 map.put("otp", otpprof);
-                map.put("coordinatorId",cidprof);
-                map.put("registrationNo",value);
-                map.put("time",timeStamp);
-                Log.d("DEBUG",map.toString());
+                map.put("coordinatorId", cidprof);
+                map.put("registrationNo", value);
+                map.put("time", timeStamp);
+                Log.d(TAG, map.toString());
                 return map;
             }
         };
         RequestQueue queue = Volley.newRequestQueue(RegistrationActivity.this);
         queue.add(request);
     }
-    private void parseRegistrationDetail(String response,String regid) throws JSONException {
+
+    private void parseRegistrationDetail(String response, String regid) throws JSONException {
+
         JSONObject jsonObject = new JSONObject(response);
+
         String error = jsonObject.getString("error");
         String message = jsonObject.getString("message");
-        if (error.equals("false")) {
-            Log.d("DEBUG",""+message);
-            //Inserting Into Database
-            DatabaseHelper db = new DatabaseHelper(RegistrationActivity.this);
-            RegistrationDetailTable.deleteTableData(db.getWritableDatabase(), "delete from " + RegistrationDetailTable.TABLE_NAME);
-            ContentValues cv = new ContentValues();
-            cv.put(RegistrationDetailTable.stu_name,message);
-            cv.put(RegistrationDetailTable.registrationId,regid);
-            long j= RegistrationDetailTable.insert(db.getWritableDatabase(), cv);
-            //Adding data into list view
-            Cursor cursor= db.getReadableDatabase().rawQuery("SELECT * FROM " + RegistrationDetailTable.TABLE_NAME  , null);
-            while(cursor.moveToNext()){
-                arrayList.add(new RegistrationDataPojo(cursor.getString(0),cursor.getString(1)));
+        Log.d("DEBUG_TO_CHECK_1", message);
+        if (message.equals("Student already checked in.")) {
+            Log.d("DEBUG_TO_CHECK", jsonObject.getString("message"));
+            Toast.makeText(RegistrationActivity.this, message, Toast.LENGTH_SHORT).show();
+        } else {
+            if (error.equals("false")) {
+
+                JSONArray jsonArray = new JSONArray(jsonObject.getString("message"));
+                //  TableMyeventsDetails.deleteTableData(db.getWritableDatabase(), "delete from " + TableMyeventsDetails.TABLE_NAME);
+                JSONObject jsonObjectNode = jsonArray.getJSONObject(0);
+                String student_name = jsonObjectNode.getString("student_name");
+                Log.d("Name", student_name);
+                String registrationId = jsonObjectNode.getString("student_registration_no");
+                String student_college = jsonObjectNode.getString("student_college");
+                String student_profile_image = jsonObjectNode.getString("student_profile_image");
+                LayoutInflater factory = LayoutInflater.from(RegistrationActivity.this);
+                Log.d(TAG, student_profile_image);
+                final View dilog_view = factory.inflate(R.layout.regdialogue_student_info, null);
+                final AlertDialog dialog_Event_detail = new AlertDialog.Builder(RegistrationActivity.this).create();
+                dialog_Event_detail.setView(dilog_view);
+                ((TextView) dilog_view.findViewById(R.id.profname)).setText(student_name);
+                ((TextView) dilog_view.findViewById(R.id.profreg)).setText(registrationId);
+                ((TextView) dilog_view.findViewById(R.id.profclg)).setText(student_college);
+
+                Picasso.with(this)
+                        .load("http://aarohan.poornima.org/" + student_profile_image)
+                        .placeholder(R.drawable.placeholder)
+                        .error(R.drawable.error)
+                        .resize(250, 350)
+                        .into(((ImageView) dilog_view.findViewById(R.id.myimgreg)));
+                Animation animation = AnimationUtils.loadAnimation(getBaseContext(), R.anim.pushupin);
+                animation.setDuration(500);
+                dilog_view.startAnimation(animation);
+                animation = null;
+                dialog_Event_detail.show();
+                listofstuRegistered();
+
+            } else {
+                Log.d(TAG, "" + jsonObject.getString("message"));
+                Toast.makeText(RegistrationActivity.this, message, Toast.LENGTH_SHORT).show();
             }
-            cursor.close();
-            registration_page_adaptor registration_adapter=new registration_page_adaptor(RegistrationActivity.this,arrayList);
-            mylist.setAdapter(registration_adapter);
-        }
-        else
-        {
-            Log.d("DEBUG",""+jsonObject.getString("message"));
-            Toast.makeText(RegistrationActivity.this,message,Toast.LENGTH_SHORT).show();
         }
     }
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_item, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
+
+
     private void logoutAPI() {
         final StringRequest request = new StringRequest(Request.Method.POST, URLHelper.logOut, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("Debug", "LogoutApi");
+                Log.d(TAG, "LogoutApi");
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("Debug","Error in Api");
+                Log.d(TAG, "Error in Api");
             }
         }
-        ){
+        ) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                HashMap<String,String> map = new HashMap<>();
-                SharedPreferences sharedPreferences = getSharedPreferences("aarohan",MODE_PRIVATE);
-                String emailprof=sharedPreferences.getString("email","");
-                String otpprof = sharedPreferences.getString("otp","");
-                map.put("email",emailprof);
-                map.put("otp",otpprof);
-                map.put("type","COORDINATOR");
+                HashMap<String, String> map = new HashMap<>();
+                SharedPreferences sharedPreferences = getSharedPreferences("aarohan", MODE_PRIVATE);
+                String emailprof = sharedPreferences.getString("email", "");
+                String otpprof = sharedPreferences.getString("otp", "");
+                map.put("email", emailprof);
+                map.put("otp", otpprof);
+                map.put("type", "COORDINATOR");
                 return map;
             }
         };
         RequestQueue queue = Volley.newRequestQueue(RegistrationActivity.this);
         queue.add(request);
+    }
+
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }
 

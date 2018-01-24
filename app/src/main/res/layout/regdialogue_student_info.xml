@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background_button_main_transparent"
+    android:layout_columnWeight="1">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:id="@+id/layour1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5">
+            <ImageView
+                android:padding="15dp"
+                android:id="@+id/myimgreg"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true" />
+            <TextView
+                android:text="Profile Picture"
+                android:fontFamily="@font/comicsansmsregular"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp"
+                android:textSize="20dp"
+                android:layout_below="@+id/myimgreg"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:paddingRight="5dp"
+            android:paddingLeft="20dp"
+            android:layout_weight="0.5"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <TextView
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:drawablePadding="10dp"
+                android:fontFamily="@font/comicsansmsregular"
+                android:textStyle="bold"
+                android:text="name"
+                android:textSize="18sp"
+                android:id="@+id/profname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/profname"
+                android:drawablePadding="10dp"
+                android:fontFamily="@font/comicsansmsregular"
+                android:textStyle="bold"
+                android:text="RegNo"
+                android:textSize="18sp"
+                android:id="@+id/profreg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/profreg"
+                android:drawablePadding="10dp"
+                android:fontFamily="@font/comicsansmsregular"
+                android:textStyle="bold"
+                android:text="clg"
+                android:textSize="18sp"
+                android:id="@+id/profclg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>
+

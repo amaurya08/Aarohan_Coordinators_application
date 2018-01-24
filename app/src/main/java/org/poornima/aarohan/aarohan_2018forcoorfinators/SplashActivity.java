@@ -18,12 +18,16 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+/*
                 startApp();
+*/
+                startActivity(new Intent(SplashActivity.this,PromptLoginActivity.class));
                 finish();
             }
         },3000);
     }
 
+/*
     private void startApp() {
         SharedPreferences sharedPreferences = getSharedPreferences("aarohan",MODE_PRIVATE);
         String type = sharedPreferences.getString("type","");
@@ -58,10 +62,13 @@ public class SplashActivity extends AppCompatActivity {
         }
 
     }
+*/
+/*
     private boolean checkSession()
     {
         SharedPreferences sharedPreferences = getSharedPreferences("aarohan",MODE_PRIVATE);
         return sharedPreferences.getBoolean("is", false);
 
     }
+*/
 }

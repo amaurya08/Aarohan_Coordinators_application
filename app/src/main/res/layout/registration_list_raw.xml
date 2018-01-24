@@ -2,15 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/background_button_main_transparent"
+    android:background="@drawable/shadow_list"
     android:orientation="vertical">
 <TextView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="Name"
     android:id="@+id/stu_name"
-    android:textColor="@color/grayTheme"
-    android:textSize="22sp"
+    android:textColor="@color/colorPrimaryDark"
+    android:textSize="20sp"
+    android:padding="5sp"
     android:paddingLeft="15sp"
     android:fontFamily="@font/comicsansmsregular"
     android:gravity="left"/>
@@ -18,10 +19,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Registration Number"
+        android:padding="5sp"
         android:id="@+id/registration_no"
         android:fontFamily="@font/comicsansmsregular"
         android:paddingLeft="15sp"
-        android:textColor="@color/grayTheme"
-        android:textSize="20sp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="15sp"
         android:gravity="left"/>
 </LinearLayout>

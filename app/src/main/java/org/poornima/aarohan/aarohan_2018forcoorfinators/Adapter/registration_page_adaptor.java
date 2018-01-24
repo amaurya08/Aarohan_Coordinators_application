@@ -31,8 +31,8 @@ public class registration_page_adaptor extends ArrayAdapter {
         LayoutInflater myinflate = LayoutInflater.from(getContext());
         View customView = myinflate.inflate(R.layout.registration_list_raw,parent,false);
         RegistrationDataPojo sp= (RegistrationDataPojo) arraylist.get(position);
-      ((TextView)customView.findViewById(R.id.stu_name)).setText(sp.getStuName());
-      ((TextView)customView.findViewById(R.id.registration_no)).setText(sp.getStuId());
+        ((TextView)customView.findViewById(R.id.stu_name)).setText(sp.getStuName());
+        ((TextView)customView.findViewById(R.id.registration_no)).setText(sp.getStuId());
         return customView;
     }
 }

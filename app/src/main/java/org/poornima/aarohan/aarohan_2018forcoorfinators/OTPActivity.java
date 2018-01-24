@@ -188,12 +188,13 @@ public class OTPActivity extends AppCompatActivity {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URLHelper.sendOTP, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
+                    Log.d(TAG,"OTP send reponse recieved");
                     ParseOtpResponse(response);
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(OTPActivity.this, "" + error, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(OTPActivity.this, "Unable to reach server" , Toast.LENGTH_SHORT).show();
                 }
             }) {
                 @Override

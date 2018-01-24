@@ -2,13 +2,10 @@ package org.poornima.aarohan.aarohan_2018forcoorfinators;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -31,11 +28,10 @@ import java.util.Map;
 
 public class PromptLoginActivity extends AppCompatActivity {
 
+    private static final String TAG = "DEBUG";
     private Button Submit_email;
     private EditText Email_id;
     private ProgressDialog progressDialog;
-    private Animation animation;
-    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,13 +57,12 @@ public class PromptLoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 progressDialog.show();
                 verifyEmail(Email_id.getText().toString());
-                overridePendingTransition(R.anim.pushupin, R.anim.pushupout);
             }
         });
     }
 
     private void verifyEmail(String em) {
-        final String email=em;
+        final String email = em;
         try {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URLHelper.verifyEmail, new Response.Listener<String>() {
                 @Override
@@ -79,8 +74,8 @@ public class PromptLoginActivity extends AppCompatActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     progressDialog.cancel();
-                    Log.d("TAG", error + "");
-                    Toast.makeText(PromptLoginActivity.this, "" + error, Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, error + "Unable to reach Server");
+                    Toast.makeText(PromptLoginActivity.this, "Unable to reach server", Toast.LENGTH_SHORT).show();
                 }
             }) {
                 @Override
@@ -107,19 +102,20 @@ public class PromptLoginActivity extends AppCompatActivity {
     }
 
     private void verifyAndParseResponse(String response, String email) {
-        Log.d("DEBUG", "I am here ");
         try {
             JSONObject jsonObject = new JSONObject(response);
             String error = jsonObject.getString("error");
             if (error.equals("false")) {
-                Log.d("DEBUG", "now I am here ");
+                Log.d(TAG, "Reponse Verify Email recieved");
                 Intent intent = new Intent(PromptLoginActivity.this, OTPActivity.class);
                 intent.putExtra("email", email);
                 //intent.putExtra("modulename", getIntent().getStringExtra("modulename").toString());
                 startActivity(intent);
                 finish();
             } else {
-                Log.d("DEBUG", "Error in parsing");
+                String m = jsonObject.getString("error");
+                Log.d(TAG, "Error Occured with String \"" + m + "\"");
+                Toast.makeText(PromptLoginActivity.this,"Error in parsing email",Toast.LENGTH_SHORT);
             }
         } catch (JSONException e) {
             e.printStackTrace();
