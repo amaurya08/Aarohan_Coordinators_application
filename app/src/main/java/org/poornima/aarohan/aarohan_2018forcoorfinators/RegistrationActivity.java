@@ -50,19 +50,17 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private Button cam, logout;
     private static final int RC_BARCODE_CAPTURE = 9001;
-    private ListView mylist;
     private static final String TAG = "debug";
     private ProgressDialog progressDialog;
     private ArrayList<RegistrationDataPojo> arrayList;
     private TextView co_email;
     private registration_page_adaptor registration_adapter;
-    private TextView regisNo;
 
     private void init() {
         arrayList = new ArrayList<>();
         co_email = findViewById(R.id.co_email);
-        mylist = findViewById(R.id.mylist);
-        regisNo = findViewById(R.id.registration_no);
+        ListView mylist = findViewById(R.id.mylist);
+        //TextView regisNo = findViewById(R.id.registration_no);
         cam = findViewById(R.id.cambutton);
         logout = findViewById(R.id.logoutbutton);
         progressDialog = new ProgressDialog(RegistrationActivity.this);
@@ -87,6 +85,9 @@ public class RegistrationActivity extends AppCompatActivity {
         {
             progressDialog.cancel();
             Toast.makeText(RegistrationActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
+            setContentView(R.layout.if_no_entry);
+            TextView noentrytxt = findViewById(R.id.noentrytxt);
+            noentrytxt.setText("No Internet Connection");
 
         }
         methodListener();
@@ -266,7 +267,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 try {
                     progressDialog.cancel();
                     Log.d(TAG, "Response Recieved\n" + response);
-                    parseRegistrationDetail(response, value);
+                    parseRegistrationDetail(response);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -299,7 +300,7 @@ public class RegistrationActivity extends AppCompatActivity {
         queue.add(request);
     }
 
-    private void parseRegistrationDetail(String response, String regid) throws JSONException {
+    private void parseRegistrationDetail(String response) throws JSONException {
 
         JSONObject jsonObject = new JSONObject(response);
 
@@ -338,13 +339,18 @@ public class RegistrationActivity extends AppCompatActivity {
                 Animation animation = AnimationUtils.loadAnimation(getBaseContext(), R.anim.pushupin);
                 animation.setDuration(500);
                 dilog_view.startAnimation(animation);
-                animation = null;
                 dialog_Event_detail.show();
                 listofstuRegistered();
 
             } else {
                 Log.d(TAG, "" + jsonObject.getString("message"));
-                Toast.makeText(RegistrationActivity.this, message, Toast.LENGTH_SHORT).show();
+                progressDialog.cancel();
+
+                Toast.makeText(RegistrationActivity.this, "You need to sign in again", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(RegistrationActivity.this,PromptLoginActivity.class));
+                finish();
+
+
             }
         }
     }

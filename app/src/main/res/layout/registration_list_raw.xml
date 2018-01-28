@@ -4,26 +4,28 @@
     android:layout_height="wrap_content"
     android:background="@drawable/shadow_list"
     android:orientation="vertical">
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="Name"
-    android:id="@+id/stu_name"
-    android:textColor="@color/colorPrimaryDark"
-    android:textSize="20sp"
-    android:padding="5sp"
-    android:paddingLeft="15sp"
-    android:fontFamily="@font/comicsansmsregular"
-    android:gravity="left"/>
+
     <TextView
+        android:id="@+id/stu_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Registration Number"
-        android:padding="5sp"
-        android:id="@+id/registration_no"
         android:fontFamily="@font/comicsansmsregular"
-        android:paddingLeft="15sp"
+        android:gravity="left"
+        android:padding="5sp"
+        android:paddingStart="15sp"
+        android:text="Name"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="15sp"
-        android:gravity="left"/>
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/registration_no"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/comicsansmsregular"
+        android:gravity="left"
+        android:padding="5sp"
+        android:paddingStart="15sp"
+        android:text="Registration Number"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="15sp" />
 </LinearLayout>

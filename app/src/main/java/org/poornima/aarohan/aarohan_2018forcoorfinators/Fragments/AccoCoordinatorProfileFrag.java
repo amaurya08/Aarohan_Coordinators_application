@@ -17,7 +17,7 @@ public class AccoCoordinatorProfileFrag extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View customview= inflater.inflate(R.layout.accocoordinatorprofile, container, false);
+        View customview = inflater.inflate(R.layout.if_no_entry, container, false);
         return customview;
     }
 }

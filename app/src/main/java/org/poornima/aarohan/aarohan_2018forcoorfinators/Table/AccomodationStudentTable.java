@@ -18,15 +18,14 @@ public class AccomodationStudentTable {
             " `room` TEXT, `rs_payment_status` TEXT NOT NULL, `rc_check_in` TEXT DEFAULT NULL," +
             " `rc_check_out` TEXT DEFAULT NULL, PRIMARY KEY(`stu_reg_no`) )";
 
-    public static void createTable(SQLiteDatabase db)
-    {
+    public static void createTable(SQLiteDatabase db) {
 
         db.execSQL(createTable);
-        Log.d("Debug","Table Create "+TABLE_NAME);
+        Log.d("Debug", "Table Create " + TABLE_NAME);
     }
 
 
-    public static void clearCoordinatorDetail(SQLiteDatabase db,String query){
+    public static void clearCoordinatorDetail(SQLiteDatabase db, String query) {
         db.execSQL(query);
     }
 
@@ -39,9 +38,9 @@ public class AccomodationStudentTable {
         return db.insert(AccomodationStudentTable.TABLE_NAME, null, cv);
 
     }
-    public static int update(SQLiteDatabase db, ContentValues cv,String regNO)
-    {
-        return db.update(AccomodationStudentTable.TABLE_NAME, cv,Stu_reg_no +" = "+"\""+regNO+"\"",null);
+
+    public static int update(SQLiteDatabase db, ContentValues cv, String regNO) {
+        return db.update(AccomodationStudentTable.TABLE_NAME, cv, Stu_reg_no + " = " + "\"" + regNO + "\"", null);
     }
 
 }

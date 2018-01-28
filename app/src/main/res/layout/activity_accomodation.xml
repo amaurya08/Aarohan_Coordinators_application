@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/shadow_button"
     android:weightSum="15"
     android:orientation="vertical"
     tools:context="org.poornima.aarohan.aarohan_2018forcoorfinators.AccomodationActivity">
@@ -11,73 +12,89 @@
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:text="Welcome"
-       android:padding="5dp"
-       android:textSize="23dp"
+       android:textStyle="bold"
+       android:textSize="25sp"
        android:gravity="center"
-       android:textColor="@color/colorPrimaryDark"
+       android:textColor="@color/whiteTheme"
+       android:background="@color/blueTheme"
        android:fontFamily="@font/comicsansmsregular"
        />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/nametext"
-
+        android:textAlignment="center"
         android:padding="5dp"
-        android:textSize="25dp"
+        android:textSize="15sp"
         android:gravity="center"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/blueTheme"
         android:fontFamily="@font/comicsansmsregular"/>
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="All Students opt for Accommodation"
-        android:textSize="18dp"
+        android:textAlignment="center"
+        android:text="All Students for Accommodation"
+        android:textSize="20sp"
         android:padding="5dp"
         android:textColor="@color/colorPrimaryDark"
         android:fontFamily="@font/comicsansmsregular"/>
 
     <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="280dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="5dp"
+        android:divider="@color/whiteTheme"
+        android:layout_weight="13.7"
         android:dividerHeight="5dp"
         android:id="@+id/accolist"/>
-   <RelativeLayout
-       android:layout_width="match_parent"
-       android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/relabut"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="5dp"
+        android:layout_weight="1.5"
+        android:orientation="horizontal"
+        android:weightSum="3">
 
+        <Button
+            android:id="@+id/checkInBut"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_layout_background"
+            android:fontFamily="@font/comicsansmsregular"
+            android:padding="5dp"
+            android:text="Check In"
+            android:textColor="@color/whiteTheme"
+            android:textSize="15sp"
+            tools:ignore="NestedWeights" />
+        <Button
+            android:id="@+id/logoutBut1"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_layout_background"
+            android:fontFamily="@font/comicsansmsregular"
+            android:padding="5dp"
+            android:text="LOG OUT"
+            android:textColor="@color/whiteTheme"
+            android:textSize="15sp" />
 
-       <Button
-           android:id="@+id/checkInBut"
-           android:layout_width="160dp"
-           android:layout_height="60dp"
-           android:layout_alignParentBottom="true"
-           android:layout_alignParentStart="true"
-           android:layout_marginBottom="25dp"
-           android:layout_marginStart="20dp"
-           android:background="@drawable/button_layout_background"
-           android:fontFamily="@font/comicsansmsregular"
-           android:text="Check In"
-           android:textColor="@color/whiteTheme" />
+        <Button
+            android:id="@+id/checkOutBut"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_layout_background"
+            android:fontFamily="@font/comicsansmsregular"
+            android:padding="5dp"
+            android:text="Check Out"
+            android:textColor="@color/whiteTheme"
+            android:textSize="15sp" />
+    </LinearLayout>
 
-
-       <Button
-           android:id="@+id/checkOutBut"
-           android:layout_width="160dp"
-           android:layout_height="60dp"
-           android:layout_marginBottom="25dp"
-           android:layout_alignParentBottom="true"
-           android:layout_alignParentEnd="true"
-           android:layout_marginEnd="20dp"
-           android:background="@drawable/button_layout_background"
-           android:fontFamily="@font/comicsansmsregular"
-           android:gravity="center"
-           android:text="Check Out"
-           android:textColor="@color/whiteTheme"
-           />
-
-
-
-   </RelativeLayout>
 
 
 

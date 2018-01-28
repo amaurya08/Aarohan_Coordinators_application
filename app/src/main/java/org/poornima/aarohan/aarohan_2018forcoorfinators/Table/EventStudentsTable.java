@@ -16,15 +16,14 @@ public class EventStudentsTable {
             " `stu_college` TEXT, `stu_email` TEXT NOT NULL, `stu_contact` TEXT," +
             " `ev_event_att` TEXT NOT NULL, PRIMARY KEY(`stu_reg_no`) )";
 
-    public static void createTable(SQLiteDatabase db)
-    {
+    public static void createTable(SQLiteDatabase db) {
 
         db.execSQL(createTable);
-        Log.d("Debug","Table Create "+TABLE_NAME);
+        Log.d("Debug", "Table Create " + TABLE_NAME);
     }
 
 
-    public static void clearCoordinatorDetail(SQLiteDatabase db,String query){
+    public static void clearCoordinatorDetail(SQLiteDatabase db, String query) {
         db.execSQL(query);
     }
 
@@ -37,9 +36,9 @@ public class EventStudentsTable {
         return db.insert(EventStudentsTable.TABLE_NAME, null, cv);
 
     }
-    public static int update(SQLiteDatabase db, ContentValues cv,String regNO)
-    {
-        return db.update(EventStudentsTable.TABLE_NAME, cv,Stu_reg_no +" = "+"\""+regNO+"\"",null);
+
+    public static int update(SQLiteDatabase db, ContentValues cv, String regNO) {
+        return db.update(EventStudentsTable.TABLE_NAME, cv, Stu_reg_no + " = " + "\"" + regNO + "\"", null);
     }
 
 

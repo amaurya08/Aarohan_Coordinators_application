@@ -5,8 +5,8 @@ package org.poornima.aarohan.aarohan_2018forcoorfinators.Pojo;
  */
 
 public class CoordinatorDataPojo {
-private String event_id,event_name,event_category,event_participation_category,event_type,event_detail,
-        event_location,event_date,event_time,co_name,event_map_coordinates_latt,event_map_coordinates_long;
+    private String event_id, event_name, event_category, event_participation_category, event_type, event_detail,
+            event_location, event_date, event_time, co_name, event_map_coordinates_latt, event_map_coordinates_long;
 
     public CoordinatorDataPojo(String event_id, String event_name, String event_category, String event_participation_category, String event_type, String event_detail, String event_location, String event_date, String event_time, String co_name, String event_map_coordinates_latt, String event_map_coordinates_long) {
         this.event_id = event_id;

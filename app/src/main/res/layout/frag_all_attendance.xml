@@ -13,6 +13,6 @@
         android:divider="@color/whiteTheme"
         android:dividerHeight="2dp"
         android:fontFamily="@font/comicsansmsregular"
-        android:padding="5dp"/>
+        android:padding="5dp" />
 
 </RelativeLayout>

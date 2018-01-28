@@ -92,7 +92,7 @@ public class CheckOutActivity extends AppCompatActivity {
                     Cursor cursor = db.getReadableDatabase().rawQuery("SELECT * FROM " + AccomodationStudentTable.TABLE_NAME, null);
                     while (cursor.moveToNext()) {
                         if (cursor.getString(1).equals(barcodeValue)) {
-                            Log.d("check12",cursor.getString(5));
+                            Log.d("check12", cursor.getString(5));
                             if (!(cursor.getString(4).equals("null"))) {
                                 if (cursor.getString(5).equals("null")) {
                                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -110,6 +110,7 @@ public class CheckOutActivity extends AppCompatActivity {
                             Toast.makeText(CheckOutActivity.this, "Registration Not Done", Toast.LENGTH_LONG).show();
                         }
                     }
+                    cursor.close();
                 }
             }
         } else {

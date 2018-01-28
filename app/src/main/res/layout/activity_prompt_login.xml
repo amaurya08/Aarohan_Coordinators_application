@@ -9,7 +9,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="17dp">
+        android:layout_margin="17dp"
+        tools:ignore="UselessParent">
 
         <TextView
             android:id="@+id/textView"
@@ -46,7 +47,7 @@
             android:layout_marginBottom="21dp"
             android:layout_marginEnd="11dp"
             android:backgroundTint="@color/blueTheme"
-            android:drawableLeft="@drawable/email"
+            android:drawableStart="@drawable/email"
             android:hint="@string/enter_your_email_here"
             android:inputType="textEmailAddress"
             android:textColorHint="@color/blueTheme" />

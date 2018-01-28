@@ -5,7 +5,7 @@ package org.poornima.aarohan.aarohan_2018forcoorfinators.Pojo;
  */
 
 public class AccommodationStudentPojo {
-    private String stu_name,stu_reg_no,room,rs_payment_status,rc_check_in,rc_check_out;
+    private String stu_name, stu_reg_no, room, rs_payment_status, rc_check_in, rc_check_out;
 
     public AccommodationStudentPojo(String stu_name, String stu_reg_no, String room, String rs_payment_status, String rc_check_in, String rc_check_out) {
         this.stu_name = stu_name;

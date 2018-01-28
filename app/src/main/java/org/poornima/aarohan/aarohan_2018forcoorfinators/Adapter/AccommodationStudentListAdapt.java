@@ -20,24 +20,23 @@ import java.util.ArrayList;
 
 public class AccommodationStudentListAdapt extends ArrayAdapter {
     private ArrayList arrayList;
+
     public AccommodationStudentListAdapt(@NonNull Context context, ArrayList<AccommodationStudentPojo> objects) {
-        super(context, R.layout.list_view_adapt_event_coor,objects);
-        arrayList=objects;
+        super(context, R.layout.list_view_adapt_event_coor, objects);
+        arrayList = objects;
     }
+
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-        View customview = layoutInflater.inflate(R.layout.list_view_adapt_event_coor,parent,false);
-        AccommodationStudentPojo pojo= (AccommodationStudentPojo) arrayList.get(position);
-        ((TextView)customview.findViewById(R.id.eventtxt)).setText(pojo.getStu_name());
-        if(pojo.getRs_payment_status().equals("0"))
-        {
-            ((TextView)customview.findViewById(R.id.partxt)).setText("Payment Status:-No");
-        }
-        else
-        {
-            ((TextView)customview.findViewById(R.id.partxt)).setText("Payment Status:-Yes");
+        View customview = layoutInflater.inflate(R.layout.list_view_adapt_event_coor, parent, false);
+        AccommodationStudentPojo pojo = (AccommodationStudentPojo) arrayList.get(position);
+        ((TextView) customview.findViewById(R.id.eventtxt)).setText(pojo.getStu_name());
+        if (pojo.getRs_payment_status().equals("0")) {
+            ((TextView) customview.findViewById(R.id.partxt)).setText("Payment Status:-No");
+        } else {
+            ((TextView) customview.findViewById(R.id.partxt)).setText("Payment Status:-Yes");
         }
         return customview;
     }

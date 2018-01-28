@@ -115,7 +115,7 @@ public class PromptLoginActivity extends AppCompatActivity {
             } else {
                 String m = jsonObject.getString("error");
                 Log.d(TAG, "Error Occured with String \"" + m + "\"");
-                Toast.makeText(PromptLoginActivity.this,"Error in parsing email",Toast.LENGTH_SHORT);
+                Toast.makeText(PromptLoginActivity.this,"Error in parsing email",Toast.LENGTH_SHORT).show();
             }
         } catch (JSONException e) {
             e.printStackTrace();

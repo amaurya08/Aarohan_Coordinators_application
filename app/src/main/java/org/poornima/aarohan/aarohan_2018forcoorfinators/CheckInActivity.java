@@ -109,6 +109,7 @@ public class CheckInActivity extends AppCompatActivity {
                             Toast.makeText(CheckInActivity.this, "Registration Not Done", Toast.LENGTH_LONG).show();
                         }
                     }
+                    cursor.close();
                 }
             }
         } else {

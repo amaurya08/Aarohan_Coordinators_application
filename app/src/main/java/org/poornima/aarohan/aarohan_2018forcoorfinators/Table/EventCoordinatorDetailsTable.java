@@ -4,10 +4,6 @@ import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-/**
- * Created by Bhoomika on 11-01-2018.
- */
-
 public class EventCoordinatorDetailsTable {
     public final static String TABLE_NAME = "EventCoordinatorDetails";
     public final static String Event_id = "event_id";
@@ -31,7 +27,8 @@ public class EventCoordinatorDetailsTable {
         db.execSQL(createTable);
         Log.d("Debug", "Table Created");
     }
-    public static void clearCoordinatorDetail(SQLiteDatabase db,String query){
+
+    public static void clearCoordinatorDetail(SQLiteDatabase db, String query) {
         db.execSQL(query);
     }
 

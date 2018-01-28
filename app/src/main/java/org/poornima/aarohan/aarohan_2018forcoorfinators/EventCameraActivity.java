@@ -56,8 +56,6 @@ public class EventCameraActivity extends AppCompatActivity {
     }
 
 
-
-
     private void init() {
         scan = findViewById(R.id.scanbut);
         stuList = findViewById(R.id.stulist);
@@ -68,25 +66,25 @@ public class EventCameraActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
 
     }
+
     private void ruleSetText() {
         String eveid = getIntent().getStringExtra("eventid");
 
         DatabaseHelper db = new DatabaseHelper(EventCameraActivity.this);
-        Cursor cursor = db.getReadableDatabase().rawQuery("select * from "+ EventCoordinatorDetailsTable.TABLE_NAME + " WHERE " + EventCoordinatorDetailsTable.Event_id + "=?" ,new String[]{eveid});
-        Log.d("Debug","cursor :"+cursor.toString());
+        Cursor cursor = db.getReadableDatabase().rawQuery("select * from " + EventCoordinatorDetailsTable.TABLE_NAME + " WHERE " + EventCoordinatorDetailsTable.Event_id + "=?", new String[]{eveid});
+        Log.d("Debug", "cursor :" + cursor.toString());
         //nametext.setText(EventCoordinatorDetailsTable.Co_name);
 
-        while (cursor.moveToNext())
-        {
+        while (cursor.moveToNext()) {
             evetxt.setText(cursor.getString(1));
             String s;
-            s=("Date:-"+cursor.getString(7))
-                    .concat("<p>"+"Time:-"+cursor.getString(8)+"</p>")
-                    .concat("<p>"+"Venue:-"+cursor.getString(6)+"</p>")
-                    .concat("<p>"+"Event Type:-"+cursor.getString(4)+"</p>")
-                    .concat("<p>"+"Participation Category:-"+cursor.getString(3)+"</p>")
-                    .concat("<p>"+"Event Category:-"+cursor.getString(2)+"</p>")
-                    .concat("<p>"+"Description:-"+cursor.getString(5));
+            s = ("Date:-" + cursor.getString(7))
+                    .concat("<p>" + "Time:-" + cursor.getString(8) + "</p>")
+                    .concat("<p>" + "Venue:-" + cursor.getString(6) + "</p>")
+                    .concat("<p>" + "Event Type:-" + cursor.getString(4) + "</p>")
+                    .concat("<p>" + "Participation Category:-" + cursor.getString(3) + "</p>")
+                    .concat("<p>" + "Event Category:-" + cursor.getString(2) + "</p>")
+                    .concat("<p>" + "Description:-" + cursor.getString(5));
             ruletxt.setText(Html.fromHtml(s));
         }
         cursor.close();
@@ -120,7 +118,7 @@ public class EventCameraActivity extends AppCompatActivity {
                 try {
                     //Toast.makeText(EventCameraActivity.this,"Api list student link successfully",Toast.LENGTH_LONG).show();
                     parseStudentList(response);
-                    Log.d("Debug","Api list student link successfully");
+                    Log.d("Debug", "Api list student link successfully");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -188,6 +186,7 @@ public class EventCameraActivity extends AppCompatActivity {
             progressDialog.cancel();
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -233,6 +232,7 @@ public class EventCameraActivity extends AppCompatActivity {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
+
     private void markAttendanceAPI(final String barcodeValue) {
         StringRequest request = new StringRequest(Request.Method.POST, URLHelper.studentAttendanceCheck, new Response.Listener<String>() {
             @Override
@@ -242,7 +242,7 @@ public class EventCameraActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Log.d("Debug","response got");
+                Log.d("Debug", "response got");
 
             }
         }, new Response.ErrorListener() {
@@ -252,8 +252,7 @@ public class EventCameraActivity extends AppCompatActivity {
                 Log.d("Debug", "Error in Api attendance");
 
             }
-        })
-        {
+        }) {
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String, String> map = new HashMap<>();
                 SharedPreferences sharedPreferences = getSharedPreferences("aarohan", MODE_PRIVATE);
@@ -279,11 +278,9 @@ public class EventCameraActivity extends AppCompatActivity {
         progressDialog.cancel();
         if (error.equals("false")) {
             studentsOfEventAPI();
-            Toast.makeText(EventCameraActivity.this,message,Toast.LENGTH_LONG).show();
-        }
-        else
-        {
-            Toast.makeText(EventCameraActivity.this,message,Toast.LENGTH_LONG).show();
+            Toast.makeText(EventCameraActivity.this, message, Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(EventCameraActivity.this, message, Toast.LENGTH_LONG).show();
         }
     }
 }

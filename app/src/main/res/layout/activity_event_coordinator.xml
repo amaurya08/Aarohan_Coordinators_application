@@ -15,7 +15,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            tools:ignore="UselessParent">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="90dp"
@@ -67,11 +68,11 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/button_layout_background"
             android:fontFamily="@font/comicsansmsregular"
-            android:textAlignment="center"
             android:padding="5dp"
             android:text="@string/your_events"
+            android:textAlignment="center"
             android:textColor="@color/whiteTheme"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <ListView
@@ -83,7 +84,8 @@
             android:divider="@color/whiteTheme"
             android:dividerHeight="5dp"
             android:fontFamily="@font/comicsansmsregular"
-            android:padding="10dp" />
+            android:padding="10dp"
+            tools:ignore="NestedWeights" />
 
 
         <Button

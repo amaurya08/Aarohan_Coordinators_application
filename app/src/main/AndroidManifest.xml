@@ -34,7 +34,6 @@
         <activity android:name=".PromptLoginActivity" />
         <activity android:name=".EventCoordinatorActivity" />
         <activity android:name=".EventAllDetailsActivity" />
-        <activity android:name=".MainActivity" />
         <activity android:name=".OTPActivity" />
         <activity android:name=".BarcodeCaptureActivity" />
         <activity android:name=".RegistrationActivity" />

@@ -21,20 +21,21 @@ import java.util.ArrayList;
 public class EventCoordinatorListAdapter extends ArrayAdapter {
 
     private ArrayList arrayList;
+
     public EventCoordinatorListAdapter(@NonNull Context context, ArrayList<CoordinatorDataPojo> objects) {
-        super(context, R.layout.list_view_adapt_event_coor,objects);
-        arrayList=objects;
+        super(context, R.layout.list_view_adapt_event_coor, objects);
+        arrayList = objects;
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-        View customview = layoutInflater.inflate(R.layout.list_view_adapt_event_coor,parent,false);
+        View customview = layoutInflater.inflate(R.layout.list_view_adapt_event_coor, parent, false);
         CoordinatorDataPojo pojo = (CoordinatorDataPojo) arrayList.get(position);
 
-        ((TextView)customview.findViewById(R.id.eventtxt)).setText(pojo.getEvent_name());
-        ((TextView)customview.findViewById(R.id.partxt)).setText(pojo.getEvent_participation_category());
+        ((TextView) customview.findViewById(R.id.eventtxt)).setText(pojo.getEvent_name());
+        ((TextView) customview.findViewById(R.id.partxt)).setText(pojo.getEvent_participation_category());
         return customview;
     }
 }

@@ -5,9 +5,9 @@ package org.poornima.aarohan.aarohan_2018forcoorfinators.Pojo;
  */
 
 public class EventStudentPojo {
-    private String stu_name,stu_reg_no,stu_college,stu_email,stu_contact,ev_event_att;
+    private String stu_name, stu_reg_no, stu_college, stu_email, stu_contact, ev_event_att;
 
-    public EventStudentPojo(String stu_name, String stu_reg_no, String stu_college, String stu_email, String stu_contact,String ev_event_att) {
+    public EventStudentPojo(String stu_name, String stu_reg_no, String stu_college, String stu_email, String stu_contact, String ev_event_att) {
         this.stu_name = stu_name;
         this.stu_reg_no = stu_reg_no;
         this.stu_college = stu_college;
@@ -35,6 +35,7 @@ public class EventStudentPojo {
     public String getStu_contact() {
         return stu_contact;
     }
+
     public String getEv_event_att() {
         return ev_event_att;
     }

@@ -10,9 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +26,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.poornima.aarohan.aarohan_2018forcoorfinators.AarohanCoordinatorClass.NetWorkManager;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.AarohanCoordinatorClass.URLHelper;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.Adapter.EventCoordinatorListAdapter;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.DBHandler.DatabaseHelper;
@@ -58,7 +57,17 @@ public class EventCoordinatorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_coordinator);
         init();
-        eventOfCoordinator();
+
+        if (NetWorkManager.checkInternetAccess(EventCoordinatorActivity.this)) {
+            progressDialog.show();
+            eventOfCoordinator();
+        } else {
+            Toast.makeText(EventCoordinatorActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
+            setContentView(R.layout.if_no_entry);
+            TextView noentrytxt = findViewById(R.id.noentrytxt);
+            noentrytxt.setText("No Internet Connection");
+
+        }
         //progressDialog.show();
         methodListener();
     }
@@ -71,7 +80,7 @@ public class EventCoordinatorActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(EventCoordinatorActivity.this);
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
-        progressDialog.show();
+
 
         initaltxt = findViewById(R.id.inittxt);
         nametext.setText("");
@@ -82,7 +91,6 @@ public class EventCoordinatorActivity extends AppCompatActivity {
 
 
     }
-
 
 
     private void fetchCoordinatorDetails() {
@@ -110,7 +118,7 @@ public class EventCoordinatorActivity extends AppCompatActivity {
         evelist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                CoordinatorDataPojo pojo = (CoordinatorDataPojo) arrayList.get(i);
+                CoordinatorDataPojo pojo = arrayList.get(i);
                 Intent intent = new Intent(EventCoordinatorActivity.this, EventCameraActivity.class);
                 intent.putExtra("eventid", pojo.getEvent_id());
                 startActivity(intent);
@@ -125,7 +133,7 @@ public class EventCoordinatorActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("email", "");
                     editor.putString("otp", "");
-                    editor.putString("cid","");
+                    editor.putString("cid", "");
                     editor.putBoolean("is", false);
                     editor.putString("type", "");
                     editor.apply();
@@ -179,11 +187,9 @@ public class EventCoordinatorActivity extends AppCompatActivity {
 
     private Boolean checksession() {
         SharedPreferences sharedPreferences = getSharedPreferences("aarohan", MODE_PRIVATE);
-        if (sharedPreferences.getBoolean("is", false))
-            return true;
-        else
-            return false;
+        return sharedPreferences.getBoolean("is", false);
     }
+
     private void eventOfCoordinator() {
         progressDialog.show();
         StringRequest request = new StringRequest(Request.Method.POST, URLHelper.eventOfCoordinator, new Response.Listener<String>() {
@@ -262,8 +268,13 @@ public class EventCoordinatorActivity extends AppCompatActivity {
             //progressDialog.cancel();
 
         } else {
-            Toast.makeText(EventCoordinatorActivity.this,"No Data Received",Toast.LENGTH_SHORT).show();
-            //progressDialog.cancel();
+            progressDialog.cancel();
+
+            Toast.makeText(EventCoordinatorActivity.this, "You need to sign in again", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(EventCoordinatorActivity.this, PromptLoginActivity.class));
+            finish();
+
+
         }
 
     }

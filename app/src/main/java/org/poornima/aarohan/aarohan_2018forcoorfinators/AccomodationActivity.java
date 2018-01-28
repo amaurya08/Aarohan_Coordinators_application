@@ -5,11 +5,9 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -27,13 +25,13 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.poornima.aarohan.aarohan_2018forcoorfinators.AarohanCoordinatorClass.NetWorkManager;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.AarohanCoordinatorClass.URLHelper;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.Adapter.AccommodationStudentListAdapt;
-import org.poornima.aarohan.aarohan_2018forcoorfinators.Adapter.EventStudentListAdapt;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.DBHandler.DatabaseHelper;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.Pojo.AccommodationStudentPojo;
-import org.poornima.aarohan.aarohan_2018forcoorfinators.Pojo.EventStudentPojo;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.Table.AccomodationStudentTable;
+import org.poornima.aarohan.aarohan_2018forcoorfinators.Table.EventCoordinatorDetailsTable;
 
 
 import java.util.ArrayList;
@@ -42,13 +40,12 @@ import java.util.Map;
 
 public class AccomodationActivity extends AppCompatActivity {
 
-    private static final int RC_BARCODE_CAPTURE = 9001;
-    private Button checkOutBut,checkInBut;
+    private Button checkOutBut, checkInBut;
     private ProgressDialog progressDialog;
+    private Button Logout;
     private ArrayList<AccommodationStudentPojo> arrayList;
     private AccommodationStudentListAdapt myadapter;
     private TextView title;
-    private ListView accolist;
     private static final String TAG = "DEBUG";
 
     @Override
@@ -56,8 +53,16 @@ public class AccomodationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accomodation);
         init();
-        progressDialog.show();
-        AccomodationListApi();
+        if (NetWorkManager.checkInternetAccess(AccomodationActivity.this)) {
+            progressDialog.show();
+            AccomodationListApi();
+        } else {
+            Toast.makeText(AccomodationActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
+            setContentView(R.layout.if_no_entry);
+            TextView noentrytxt = findViewById(R.id.noentrytxt);
+            noentrytxt.setText("No Internet Connection");
+        }
+
         SharedPreferences sharedPreferences = getSharedPreferences("aarohan", MODE_PRIVATE);
         String emailprof = sharedPreferences.getString("email", "");
         title.setText(emailprof);
@@ -70,9 +75,10 @@ public class AccomodationActivity extends AppCompatActivity {
         checkOutBut = findViewById(R.id.checkOutBut);
         checkInBut = findViewById(R.id.checkInBut);
         title = findViewById(R.id.nametext);
-        accolist = findViewById(R.id.accolist);
-        arrayList= new ArrayList<>();
-        myadapter = new AccommodationStudentListAdapt(AccomodationActivity.this,arrayList);
+        Logout = findViewById(R.id.logoutBut1);
+        ListView accolist = findViewById(R.id.accolist);
+        arrayList = new ArrayList<>();
+        myadapter = new AccommodationStudentListAdapt(AccomodationActivity.this, arrayList);
         accolist.setAdapter(myadapter);
         progressDialog = new ProgressDialog(AccomodationActivity.this);
         progressDialog.setMessage("Loading...");
@@ -90,7 +96,7 @@ public class AccomodationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(AccomodationActivity.this, CheckInActivity.class);
-              AccomodationActivity.this.startActivity(intent);
+                AccomodationActivity.this.startActivity(intent);
             }
         });
         checkOutBut.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +106,33 @@ public class AccomodationActivity extends AppCompatActivity {
                 AccomodationActivity.this.startActivity(intent);
             }
         });
+        Logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (checksession()) {
+                    logoutAPI();
+                    SharedPreferences sharedPreferences = getSharedPreferences("aarohan", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("email", "");
+                    editor.putString("otp", "");
+                    editor.putString("cid", "");
+                    editor.putBoolean("is", false);
+                    editor.putString("type", "");
+                    editor.apply();
+                    DatabaseHelper db = new DatabaseHelper(AccomodationActivity.this);
+                    AccomodationStudentTable.clearCoordinatorDetail(db.getWritableDatabase(), "delete from " + AccomodationStudentTable.TABLE_NAME);
+                    Toast.makeText(AccomodationActivity.this, "LogoutSuccessfull", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(AccomodationActivity.this, PromptLoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Intent intent = new Intent(AccomodationActivity.this, PromptLoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        });
+
 
     }
 
@@ -153,7 +186,7 @@ public class AccomodationActivity extends AppCompatActivity {
             Log.d(TAG, "" + message);
             DatabaseHelper db = new DatabaseHelper(AccomodationActivity.this);
             Log.d(TAG, "After DB Helper");
-               AccomodationStudentTable.deleteTableData(db.getWritableDatabase(), "delete from " + AccomodationStudentTable.TABLE_NAME);
+            AccomodationStudentTable.deleteTableData(db.getWritableDatabase(), "delete from " + AccomodationStudentTable.TABLE_NAME);
             //  Log.d(TAG,"Query fired DB Helper with length "+studentArray.length());
             /*Log.d(TAG,studentArray.toString());*/
 
@@ -188,7 +221,11 @@ public class AccomodationActivity extends AppCompatActivity {
             fetchStuData();
         } else {
             progressDialog.cancel();
-            Toast.makeText(AccomodationActivity.this, message, Toast.LENGTH_LONG).show();
+
+            Toast.makeText(AccomodationActivity.this, "You need to sign in again", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(AccomodationActivity.this, PromptLoginActivity.class));
+            finish();
+
 
         }
     }
@@ -201,7 +238,7 @@ public class AccomodationActivity extends AppCompatActivity {
         Log.d(TAG, "Cursor is not null");
 
         while (cursor.moveToNext()) {
-            arrayList.add(new AccommodationStudentPojo(cursor.getString(0), cursor.getString(1), cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5)));
+            arrayList.add(new AccommodationStudentPojo(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
 
         }
         myadapter.notifyDataSetChanged();
@@ -212,6 +249,43 @@ public class AccomodationActivity extends AppCompatActivity {
 
         Toast.makeText(AccomodationActivity.this, "set text succeess", Toast.LENGTH_LONG).show();
 
+    }
+
+    private void logoutAPI() {
+        final StringRequest request = new StringRequest(Request.Method.POST, URLHelper.logOut, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("Debug", "LogoutApi");
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Debug", "Error in Api");
+            }
+        }
+        ) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<>();
+                SharedPreferences sharedPreferences = getSharedPreferences("aarohan", MODE_PRIVATE);
+                String emailprof = sharedPreferences.getString("email", "");
+                String otpprof = sharedPreferences.getString("otp", "");
+                map.put("email", emailprof);
+                map.put("otp", otpprof);
+                map.put("type", "COORDINATOR");
+                return map;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(AccomodationActivity.this);
+        queue.add(request);
+
+    }
+
+
+    private Boolean checksession() {
+        SharedPreferences sharedPreferences = getSharedPreferences("aarohan", MODE_PRIVATE);
+        return sharedPreferences.getBoolean("is", false);
     }
 
 

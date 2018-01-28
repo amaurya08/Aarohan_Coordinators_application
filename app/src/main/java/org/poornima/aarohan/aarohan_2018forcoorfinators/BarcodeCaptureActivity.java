@@ -71,7 +71,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
     private static final int RC_HANDLE_CAMERA_PERM = 2;
 
     // constants used to pass extra data in the intent
-    public static boolean AutoFocus ;
+    public static boolean AutoFocus;
     public static boolean UseFlash = false;
     public static final String BarcodeObject = "Barcode";
 
@@ -96,8 +96,8 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
 
         // read parameters from the intent used to launch the activity.
         //boolean autoFocus = getIntent().getBooleanExtra(AutoFocus, true);
-       // boolean useFlash = getIntent().getBooleanExtra(UseFlash, false);
-        AutoFocus =true;
+        // boolean useFlash = getIntent().getBooleanExtra(UseFlash, false);
+        AutoFocus = true;
 
         // Check for the camera permission before accessing the camera.  If the
         // permission is not granted yet, request permission.
@@ -162,7 +162,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
      * Creates and starts the camera.  Note that this uses a higher resolution in comparison
      * to other detection examples to enable the barcode detector to detect small barcodes
      * at long distances.
-     *
+     * <p>
      * Suppressing InlinedApi since there is a check that the minimum version is met before using
      * the constant.
      */
@@ -441,10 +441,10 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
     @Override
     public void onBarcodeDetected(Barcode barcode) {
         //do something with barcode data returned
-        Log.d("DEBUG",""+barcode.displayValue);
+        Log.d("DEBUG", "" + barcode.displayValue);
         Intent intent = new Intent();
-        intent.putExtra("barcodeValue",barcode.displayValue);
-        setResult(9001,intent);
+        intent.putExtra("barcodeValue", barcode.displayValue);
+        setResult(9001, intent);
         finish();
         /*
 

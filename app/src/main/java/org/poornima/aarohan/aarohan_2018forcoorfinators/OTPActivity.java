@@ -1,11 +1,11 @@
 package org.poornima.aarohan.aarohan_2018forcoorfinators;
 
 import android.app.ProgressDialog;
-import android.content.ContentValues;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.CountDownTimer;
-import android.os.Handler;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,8 +28,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.AarohanCoordinatorClass.URLHelper;
-import org.poornima.aarohan.aarohan_2018forcoorfinators.DBHandler.DatabaseHelper;
-import org.poornima.aarohan.aarohan_2018forcoorfinators.Table.EventCoordinatorDetailsTable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -188,13 +186,13 @@ public class OTPActivity extends AppCompatActivity {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URLHelper.sendOTP, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    Log.d(TAG,"OTP send reponse recieved");
+                    Log.d(TAG, "OTP send reponse recieved");
                     ParseOtpResponse(response);
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(OTPActivity.this, "Unable to reach server" , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(OTPActivity.this, "Unable to reach server", Toast.LENGTH_SHORT).show();
                 }
             }) {
                 @Override
