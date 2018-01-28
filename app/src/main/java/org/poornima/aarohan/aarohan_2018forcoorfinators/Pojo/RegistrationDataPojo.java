@@ -1,9 +1,5 @@
 package org.poornima.aarohan.aarohan_2018forcoorfinators.Pojo;
 
-/**
- * Created by Bhoomika on 13-01-2018.
- */
-
 public class RegistrationDataPojo {
     private String stuName, stuId;
 

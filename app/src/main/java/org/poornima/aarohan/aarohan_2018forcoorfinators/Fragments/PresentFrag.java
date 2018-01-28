@@ -9,12 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-;import org.poornima.aarohan.aarohan_2018forcoorfinators.Adapter.EventStudentListAdapt;
+import org.poornima.aarohan.aarohan_2018forcoorfinators.Adapter.EventStudentListAdapt;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.DBHandler.DatabaseHelper;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.Pojo.EventStudentPojo;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.R;
@@ -37,7 +35,7 @@ public class PresentFrag extends Fragment {
 
         arrayList = new ArrayList<>();
         myadapter = new EventStudentListAdapt(getContext(), arrayList);
-        ListView mylist = (ListView) customview.findViewById(R.id.List1);
+        ListView mylist = customview.findViewById(R.id.List1);
         mylist.setAdapter(myadapter);
         fetchAllStudent();
 
@@ -56,12 +54,8 @@ public class PresentFrag extends Fragment {
         DatabaseHelper db = new DatabaseHelper(getContext());
         Cursor cursor = db.getReadableDatabase().rawQuery("select * from " + EventStudentsTable.TABLE_NAME + " where " + EventStudentsTable.Ev_event_att + "=" + "1", null);
         Log.d("Debug", "cursor y :" + cursor.toString());
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-                arrayList.add(new EventStudentPojo(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
-            }
-        } else {
-            Toast.makeText(getContext(), "Error reading in Data from db", Toast.LENGTH_SHORT).show();
+        while (cursor.moveToNext()) {
+            arrayList.add(new EventStudentPojo(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
         }
         //myAdpater.notifyDataSetChanged();
         Log.d("Debug", "arraylist");

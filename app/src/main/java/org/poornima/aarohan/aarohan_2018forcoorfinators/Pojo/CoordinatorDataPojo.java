@@ -1,8 +1,5 @@
 package org.poornima.aarohan.aarohan_2018forcoorfinators.Pojo;
 
-/**
- * Created by Bhoomika on 11-01-2018.
- */
 
 public class CoordinatorDataPojo {
     private String event_id, event_name, event_category, event_participation_category, event_type, event_detail,

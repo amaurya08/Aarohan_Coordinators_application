@@ -2,13 +2,16 @@ package org.poornima.aarohan.aarohan_2018forcoorfinators;
 
 import android.app.ProgressDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,7 +34,6 @@ import org.poornima.aarohan.aarohan_2018forcoorfinators.Adapter.AccommodationStu
 import org.poornima.aarohan.aarohan_2018forcoorfinators.DBHandler.DatabaseHelper;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.Pojo.AccommodationStudentPojo;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.Table.AccomodationStudentTable;
-import org.poornima.aarohan.aarohan_2018forcoorfinators.Table.EventCoordinatorDetailsTable;
 
 
 import java.util.ArrayList;
@@ -45,6 +47,7 @@ public class AccomodationActivity extends AppCompatActivity {
     private Button Logout;
     private ArrayList<AccommodationStudentPojo> arrayList;
     private AccommodationStudentListAdapt myadapter;
+    private ListView accolist;
     private TextView title;
     private static final String TAG = "DEBUG";
 
@@ -76,7 +79,7 @@ public class AccomodationActivity extends AppCompatActivity {
         checkInBut = findViewById(R.id.checkInBut);
         title = findViewById(R.id.nametext);
         Logout = findViewById(R.id.logoutBut1);
-        ListView accolist = findViewById(R.id.accolist);
+       accolist = findViewById(R.id.accolist);
         arrayList = new ArrayList<>();
         myadapter = new AccommodationStudentListAdapt(AccomodationActivity.this, arrayList);
         accolist.setAdapter(myadapter);
@@ -121,7 +124,7 @@ public class AccomodationActivity extends AppCompatActivity {
                     editor.apply();
                     DatabaseHelper db = new DatabaseHelper(AccomodationActivity.this);
                     AccomodationStudentTable.clearCoordinatorDetail(db.getWritableDatabase(), "delete from " + AccomodationStudentTable.TABLE_NAME);
-                    Toast.makeText(AccomodationActivity.this, "LogoutSuccessfull", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AccomodationActivity.this, "Logout Successfull", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(AccomodationActivity.this, PromptLoginActivity.class);
                     startActivity(intent);
                     finish();
@@ -130,6 +133,58 @@ public class AccomodationActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 }
+            }
+        });
+       accolist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String regno1 = arrayList.get(i).getStu_reg_no();
+                DatabaseHelper db = new DatabaseHelper(AccomodationActivity.this);
+
+                Cursor cursor = db.getReadableDatabase().rawQuery("SELECT * FROM " + AccomodationStudentTable.TABLE_NAME, null);
+
+                while (cursor.moveToNext()) {
+                    if (cursor.getString(1).equals(regno1)) {
+                        String Name = "Name:-" + cursor.getString(0);
+                        String Room = "Room Detail:-" + cursor.getString(2);
+                        String Regno = "Registration No.:-" + cursor.getString(1);
+                        String checkin = "Check In Time:-" + cursor.getString(4);
+                        String checkout = "Check Out Time:-" + cursor.getString(5);
+                        Log.d("DEBUG", Name + ".." + Room + ".." + Regno + ",," + checkin + ".." + checkout);
+
+                        View dialogview = getLayoutInflater().inflate(R.layout.dialog_scanner_result, null);
+
+                        if (dialogview != null) {
+                            TextView name = dialogview.findViewById(R.id.nametxt);
+                            name.setText(Name);
+                            ((TextView) dialogview.findViewById(R.id.roomtxt)).setText(Room);
+                            ((TextView) dialogview.findViewById(R.id.regtxt)).setText(Regno);
+                            ((TextView) dialogview.findViewById(R.id.checkintxt)).setText(checkin);
+                            ((TextView) dialogview.findViewById(R.id.checkouttxt)).setText(checkout);
+                            if (cursor.getString(3).equals("0")) {
+                                ((TextView) dialogview.findViewById(R.id.paymenttxt)).setText("Payment Status:-No");
+                            } else {
+                                ((TextView) dialogview.findViewById(R.id.paymenttxt)).setText("Payment Status:-Yes");
+                            }
+                            AlertDialog.Builder dialogbuild = new AlertDialog.Builder(AccomodationActivity.this);
+                            dialogbuild.setView(dialogview)
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                            dialogInterface.cancel();
+
+                                        }
+                                    });
+                            dialogbuild.setCancelable(false);
+                            dialogbuild.show().create();
+
+                        }
+                    }
+
+
+                }
+                cursor.close();
             }
         });
 
@@ -148,7 +203,7 @@ public class AccomodationActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 Log.d(TAG, "Success in Api Link");
-                Toast.makeText(AccomodationActivity.this, "Success in Api Link", Toast.LENGTH_LONG).show();
+                //Toast.makeText(AccomodationActivity.this, "Success in Api Link", Toast.LENGTH_LONG).show();
 
             }
         }, new Response.ErrorListener() {
@@ -156,7 +211,7 @@ public class AccomodationActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 progressDialog.cancel();
                 Log.d(TAG, "Error in Api Link");
-                Toast.makeText(AccomodationActivity.this, "Error in Api Link", Toast.LENGTH_LONG).show();
+                Toast.makeText(AccomodationActivity.this, "Error to  Network", Toast.LENGTH_LONG).show();
 
             }
         }
@@ -211,7 +266,7 @@ public class AccomodationActivity extends AppCompatActivity {
                 cv.put(AccomodationStudentTable.Rs_payment_status, rs_payment_status);
                 cv.put(AccomodationStudentTable.Rc_check_in, rc_check_in);
                 cv.put(AccomodationStudentTable.Rc_check_out, rc_check_out);
-                Toast.makeText(AccomodationActivity.this, "Database contain data", Toast.LENGTH_LONG).show();
+                // Toast.makeText(AccomodationActivity.this, "Database contain data", Toast.LENGTH_LONG).show();
                 if (AccomodationStudentTable.insert(db.getWritableDatabase(), cv) > 0)
                     Log.d(TAG, "Databse insert");
                 else
@@ -247,7 +302,7 @@ public class AccomodationActivity extends AppCompatActivity {
         Log.d(TAG, "I am here");
         progressDialog.cancel();
 
-        Toast.makeText(AccomodationActivity.this, "set text succeess", Toast.LENGTH_LONG).show();
+        //Toast.makeText(AccomodationActivity.this, "set text succeess", Toast.LENGTH_LONG).show();
 
     }
 

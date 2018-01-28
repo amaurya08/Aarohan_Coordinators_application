@@ -2,16 +2,20 @@ package org.poornima.aarohan.aarohan_2018forcoorfinators;
 
 import android.app.ProgressDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -29,7 +33,6 @@ import org.poornima.aarohan.aarohan_2018forcoorfinators.AarohanCoordinatorClass.
 import org.poornima.aarohan.aarohan_2018forcoorfinators.Adapter.AccommodationStudentListAdapt;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.DBHandler.DatabaseHelper;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.Pojo.AccommodationStudentPojo;
-import org.poornima.aarohan.aarohan_2018forcoorfinators.Pojo.RegistrationDataPojo;
 import org.poornima.aarohan.aarohan_2018forcoorfinators.Table.AccomodationStudentTable;
 
 import java.text.SimpleDateFormat;
@@ -40,11 +43,11 @@ import java.util.Map;
 
 
 public class CheckInActivity extends AppCompatActivity {
-    private Button cam;
     private static final int RC_BARCODE_CAPTURE = 9001;
+    private static final String TAG = "DEBUG";
+    private Button cam;
     private ListView listcheck;
     private ProgressDialog progressDialog;
-    private static final String TAG = "DEBUG";
     private ArrayList<AccommodationStudentPojo> arrayList;
     private AccommodationStudentListAdapt myadapter;
 
@@ -79,37 +82,151 @@ public class CheckInActivity extends AppCompatActivity {
                 startActivityForResult(intent, RC_BARCODE_CAPTURE);
             }
         });
+        listcheck.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String regno1 = arrayList.get(i).getStu_reg_no();
+                DatabaseHelper db = new DatabaseHelper(CheckInActivity.this);
+
+                Cursor cursor = db.getReadableDatabase().rawQuery("SELECT * FROM " + AccomodationStudentTable.TABLE_NAME, null);
+
+                while (cursor.moveToNext()) {
+                    if (cursor.getString(1).equals(regno1)) {
+                        String Name = "Name:-" + cursor.getString(0);
+                        String Room = "Room Detail:-" + cursor.getString(2);
+                        String Regno = "Registration No.:-" + cursor.getString(1);
+                        String checkin = "Check In Time:-" + cursor.getString(4);
+                        String checkout = "Check Out Time:-" + cursor.getString(5);
+                        Log.d("DEBUG", Name + ".." + Room + ".." + Regno + ",," + checkin + ".." + checkout);
+
+                        View dialogview = getLayoutInflater().inflate(R.layout.dialog_scanner_result, null);
+
+                        if (dialogview != null) {
+                            TextView name = dialogview.findViewById(R.id.nametxt);
+                            name.setText(Name);
+                            ((TextView) dialogview.findViewById(R.id.roomtxt)).setText(Room);
+                            ((TextView) dialogview.findViewById(R.id.regtxt)).setText(Regno);
+                            ((TextView) dialogview.findViewById(R.id.checkintxt)).setText(checkin);
+                            ((TextView) dialogview.findViewById(R.id.checkouttxt)).setText(checkout);
+                            if (cursor.getString(3).equals("0")) {
+                                ((TextView) dialogview.findViewById(R.id.paymenttxt)).setText("Payment Status:-No");
+                            } else {
+                                ((TextView) dialogview.findViewById(R.id.paymenttxt)).setText("Payment Status:-Yes");
+                            }
+                            AlertDialog.Builder dialogbuild = new AlertDialog.Builder(CheckInActivity.this);
+                            dialogbuild.setView(dialogview)
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                            dialogInterface.cancel();
+
+                                        }
+                                    });
+                            dialogbuild.setCancelable(false);
+                            dialogbuild.show().create();
+
+                        }
+                    }
+
+
+                }
+                cursor.close();
+            }
+        });
     }
+
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RC_BARCODE_CAPTURE) {
+            final String barcodeValue;
             if (resultCode == RC_BARCODE_CAPTURE) {
                 if (data != null) {
 
-                    String barcodeValue = data.getStringExtra("barcodeValue");
+                    int flag = 1;
+                    barcodeValue = data.getStringExtra("barcodeValue");
+
                     Log.d("DEBUG", "Data Scanned" + barcodeValue);
-                    int flag = 0;
+
                     DatabaseHelper db = new DatabaseHelper(CheckInActivity.this);
+
                     Cursor cursor = db.getReadableDatabase().rawQuery("SELECT * FROM " + AccomodationStudentTable.TABLE_NAME, null);
+
                     while (cursor.moveToNext()) {
+
                         Log.d("check1", "check2jk");
+
                         Log.d("check1", cursor.getString(4));
+
                         if (cursor.getString(1).equals(barcodeValue)) {
+                            flag = 0;
                             if (cursor.getString(4).equals("null") && cursor.getString(5).equals("null")) {
                                 Log.d("check1", "check2");
+
                                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                String timestamp = sdf.format(new Date());
-                                progressDialog.show();
-                                checkinDetail(barcodeValue, timestamp);
+                                final String timestamp = sdf.format(new Date());
+                                String Name = "Name:-" + cursor.getString(0);
+                                String Room = "Room Detail:-" + cursor.getString(2);
+                                String Regno = "Registration No.:-" + cursor.getString(1);
+                                String checkin = "Check In Time:-" + cursor.getString(4);
+                                String checkout = "Check Out Time:-" + cursor.getString(5);
+                                Log.d("DEBUG", Name + ".." + Room + ".." + Regno + ",," + checkin + ".." + checkout);
+
+                                View dialogview = getLayoutInflater().inflate(R.layout.dialog_scanner_result, null);
+
+                                if (dialogview != null) {
+                                    TextView name = dialogview.findViewById(R.id.nametxt);
+                                    name.setText(Name);
+                                    ((TextView) dialogview.findViewById(R.id.roomtxt)).setText(Room);
+                                    ((TextView) dialogview.findViewById(R.id.regtxt)).setText(Regno);
+                                    ((TextView) dialogview.findViewById(R.id.checkintxt)).setText(checkin);
+                                    ((TextView) dialogview.findViewById(R.id.checkouttxt)).setText(checkout);
+                                    if (cursor.getString(3).equals("0")) {
+                                        ((TextView) dialogview.findViewById(R.id.paymenttxt)).setText("Payment Status:-No");
+                                    } else {
+                                        ((TextView) dialogview.findViewById(R.id.paymenttxt)).setText("Payment Status:-Yes");
+                                    }
+                                    AlertDialog.Builder dialogbuild = new AlertDialog.Builder(CheckInActivity.this);
+                                    dialogbuild.setView(dialogview)
+                                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                                    progressDialog.show();
+                                                    checkinDetail(barcodeValue, timestamp);
+                                                    dialogInterface.cancel();
+
+                                                }
+                                            });
+                                    dialogbuild.setView(dialogview)
+                                            .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                                    Toast.makeText(CheckInActivity.this,"Data not Saved",Toast.LENGTH_SHORT).show();
+                                                    dialogInterface.cancel();
+
+                                                }
+                                            });
+                                    dialogbuild.show().create();
+                                    dialogbuild.setCancelable(false);
+                                } else
+                                    Toast.makeText(this, "Can't Inflate VIew", Toast.LENGTH_SHORT).show();
+
                                 Log.e("check1", "check2");
+                                break;
+
                             } else {
-                                Toast.makeText(CheckInActivity.this, "Check In Done", Toast.LENGTH_LONG).show();
+                                Toast.makeText(CheckInActivity.this, "Already Checked In", Toast.LENGTH_LONG).show();
+                                break;
+
                             }
-                        } else {
-                            Toast.makeText(CheckInActivity.this, "Registration Not Done", Toast.LENGTH_LONG).show();
                         }
                     }
                     cursor.close();
+                    if (flag == 1) {
+                        Toast.makeText(CheckInActivity.this, "Registration Not Done", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         } else {
@@ -126,7 +243,7 @@ public class CheckInActivity extends AppCompatActivity {
                 try {
                     //progressDialog.cancel();
                     Log.d("DEBUG", "Response Recieved\n" + response);
-                    parseCheckinDetail(response, value);
+                    parseCheckinDetail(response);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -136,7 +253,7 @@ public class CheckInActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progressDialog.cancel();
-                Toast.makeText(CheckInActivity.this, "Error in loading detail of checkin accommodation", Toast.LENGTH_LONG).show();
+                Toast.makeText(CheckInActivity.this, "Error in loading detail of Check In accommodation", Toast.LENGTH_LONG).show();
             }
         }) {
             @Override
@@ -160,15 +277,13 @@ public class CheckInActivity extends AppCompatActivity {
         queue.add(request);
     }
 
-    void parseCheckinDetail(String response, String value) throws JSONException {
+    void parseCheckinDetail(String response) throws JSONException {
         JSONObject jsonObject = new JSONObject(response);
         String error = jsonObject.getString("error");
         String message = jsonObject.getString("message");
         if (error.equals("false")) {
             Log.d("DEBUG", "" + message);
             AccomodationListApi();
-
-            //Inserting Into Database
 
         } else {
             progressDialog.cancel();
@@ -178,7 +293,6 @@ public class CheckInActivity extends AppCompatActivity {
 
     private void AccomodationListApi() {
         progressDialog.show();
-
         StringRequest request = new StringRequest(Request.Method.POST, URLHelper.AccommodationList, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -188,7 +302,7 @@ public class CheckInActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 Log.d(TAG, "Success in Api Link");
-                Toast.makeText(CheckInActivity.this, "Success in Api Link", Toast.LENGTH_LONG).show();
+                //Toast.makeText(CheckInActivity.this, "Success in Api Link", Toast.LENGTH_LONG).show();
 
             }
         }, new Response.ErrorListener() {
@@ -196,7 +310,7 @@ public class CheckInActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 progressDialog.cancel();
                 Log.d(TAG, "Error in Api Link");
-                Toast.makeText(CheckInActivity.this, "Error in Api Link", Toast.LENGTH_LONG).show();
+                Toast.makeText(CheckInActivity.this, "Error in Network Link", Toast.LENGTH_LONG).show();
 
             }
         }
@@ -241,7 +355,6 @@ public class CheckInActivity extends AppCompatActivity {
                 String rc_check_in = jsonObject1.getString("rc_check_in");
                 //   Log.d(TAG,rc_check_in);
                 String rc_check_out = jsonObject1.getString("rc_check_out");
-                //Log.d(TAG,studentArray.getJSONObject(i).toString());
                 Log.d(TAG, stu_name + "\n" + stu_reg_no + "\n" + room + "\n" + rs_payment_status + "\n" + rc_check_in + "\n" + rc_check_out);
 
                 ContentValues cv = new ContentValues();
@@ -251,7 +364,7 @@ public class CheckInActivity extends AppCompatActivity {
                 cv.put(AccomodationStudentTable.Rs_payment_status, rs_payment_status);
                 cv.put(AccomodationStudentTable.Rc_check_in, rc_check_in);
                 cv.put(AccomodationStudentTable.Rc_check_out, rc_check_out);
-                Toast.makeText(CheckInActivity.this, "Database contain data", Toast.LENGTH_LONG).show();
+                // Toast.makeText(CheckInActivity.this, "Database contain data", Toast.LENGTH_LONG).show();
                 if (AccomodationStudentTable.insert(db.getWritableDatabase(), cv) > 0)
                     Log.d(TAG, "Databse insert");
                 else
@@ -263,18 +376,22 @@ public class CheckInActivity extends AppCompatActivity {
 
         } else {
             progressDialog.cancel();
-            Toast.makeText(CheckInActivity.this, message, Toast.LENGTH_LONG).show();
+            Toast.makeText(CheckInActivity.this, "You need to sign in again", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(CheckInActivity.this, PromptLoginActivity.class));
+            finish();
+
 
         }
     }
 
     private void SetDataOnList() {
-        String nl = "null";
+        arrayList.clear();
+
         DatabaseHelper db = new DatabaseHelper(CheckInActivity.this);
         Cursor cursor = db.getReadableDatabase().rawQuery("SELECT * FROM " + AccomodationStudentTable.TABLE_NAME + " WHERE " + AccomodationStudentTable.Rc_check_in + " IS NOT " + "\"null\"", null);
         Log.d(TAG, "Reading DAtabase" + cursor.getCount());
         Log.d(TAG, "Cursor is not null");
-        Toast.makeText(CheckInActivity.this, "display done", Toast.LENGTH_LONG).show();
+        //Toast.makeText(CheckInActivity.this, "display done", Toast.LENGTH_LONG).show();
 
         while (cursor.moveToNext()) {
             arrayList.add(new AccommodationStudentPojo(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));

@@ -127,7 +127,7 @@ public class EventCameraActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progressDialog.cancel();
-                Toast.makeText(EventCameraActivity.this, "error in api link", Toast.LENGTH_LONG).show();
+                Toast.makeText(EventCameraActivity.this, "Error in Network Link", Toast.LENGTH_LONG).show();
                 startActivity(new Intent(EventCameraActivity.this, EventCoordinatorActivity.class));
                 finish();
             }

@@ -1,35 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_margin="5dp"
     android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/nametxt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/comicsansmsregular"
+        android:textColor="@color/blueTheme"
         android:text="@string/nameofstudent"
-        android:textSize="15sp" />
+        android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/colgtxt"
+        android:id="@+id/roomtxt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/nametxt"
-        android:text="@string/collegename"
-        android:textSize="15sp" />
-
-    <Button
-        android:id="@+id/okbut"
-        android:layout_width="wrap_content"
+        android:textColor="@color/blueTheme"
+        android:fontFamily="@font/comicsansmsregular"
+        android:text="Room no"
+        android:textSize="16sp" />
+    <TextView
+        android:id="@+id/regtxt"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/colgtxt"
-        android:text="@string/ok_dialoguebox" />
-
-    <Button
-        android:id="@+id/cancelbut"
-        android:layout_width="wrap_content"
+        android:layout_below="@+id/roomtxt"
+        android:textColor="@color/blueTheme"
+        android:fontFamily="@font/comicsansmsregular"
+        android:text="Registration no."
+        android:textSize="16sp" />
+    <TextView
+        android:id="@+id/paymenttxt"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/colgtxt"
-        android:layout_toEndOf="@+id/okbut"
-        android:text="@string/cancel_dialoguebox" />
+        android:layout_below="@+id/regtxt"
+        android:fontFamily="@font/comicsansmsregular"
+        android:textColor="@color/blueTheme"
+        android:text="Payment Status"
+        android:textSize="16sp" />
+    <TextView
+        android:id="@+id/checkintxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/paymenttxt"
+        android:fontFamily="@font/comicsansmsregular"
+        android:textColor="@color/blueTheme"
+        android:text="checkin"
+        android:textSize="16sp" />
+    <TextView
+        android:id="@+id/checkouttxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/checkintxt"
+        android:fontFamily="@font/comicsansmsregular"
+        android:textColor="@color/blueTheme"
+        android:text="checkout"
+        android:textSize="16sp" />
+
+
+
+
+
 </RelativeLayout>

@@ -38,6 +38,7 @@ public class AccommodationStudentListAdapt extends ArrayAdapter {
         } else {
             ((TextView) customview.findViewById(R.id.partxt)).setText("Payment Status:-Yes");
         }
+
         return customview;
     }
 }

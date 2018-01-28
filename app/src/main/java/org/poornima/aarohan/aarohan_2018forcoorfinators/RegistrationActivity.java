@@ -48,9 +48,9 @@ import java.util.Map;
 
 public class RegistrationActivity extends AppCompatActivity {
 
-    private Button cam, logout;
     private static final int RC_BARCODE_CAPTURE = 9001;
     private static final String TAG = "debug";
+    private Button cam, logout;
     private ProgressDialog progressDialog;
     private ArrayList<RegistrationDataPojo> arrayList;
     private TextView co_email;
@@ -69,6 +69,7 @@ public class RegistrationActivity extends AppCompatActivity {
         mylist.setAdapter(registration_adapter);
         progressDialog.setMessage("please wait...");
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,9 +81,7 @@ public class RegistrationActivity extends AppCompatActivity {
         progressDialog.show();
         if (NetWorkManager.checkInternetAccess(RegistrationActivity.this)) {
             listofstuRegistered();
-        }
-        else
-        {
+        } else {
             progressDialog.cancel();
             Toast.makeText(RegistrationActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
             setContentView(R.layout.if_no_entry);
@@ -203,7 +202,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 editor.apply();
                 DatabaseHelper db = new DatabaseHelper(RegistrationActivity.this);
                 EventCoordinatorDetailsTable.clearCoordinatorDetail(db.getWritableDatabase(), "delete from " + RegistrationDetailTable.TABLE_NAME);
-                Toast.makeText(RegistrationActivity.this, "LogoutSuccessfull", Toast.LENGTH_LONG).show();
+                Toast.makeText(RegistrationActivity.this, "Logout Successfull", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(RegistrationActivity.this, PromptLoginActivity.class);
                 startActivity(intent);
                 finish();
@@ -347,10 +346,8 @@ public class RegistrationActivity extends AppCompatActivity {
                 progressDialog.cancel();
 
                 Toast.makeText(RegistrationActivity.this, "You need to sign in again", Toast.LENGTH_LONG).show();
-                startActivity(new Intent(RegistrationActivity.this,PromptLoginActivity.class));
+                startActivity(new Intent(RegistrationActivity.this, PromptLoginActivity.class));
                 finish();
-
-
             }
         }
     }

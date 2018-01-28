@@ -1,8 +1,5 @@
 package org.poornima.aarohan.aarohan_2018forcoorfinators.Pojo;
 
-/**
- * Created by ADMIN on 19-Jan-18.
- */
 
 public class AccommodationStudentPojo {
     private String stu_name, stu_reg_no, room, rs_payment_status, rc_check_in, rc_check_out;

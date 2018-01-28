@@ -1,8 +1,6 @@
 package org.poornima.aarohan.aarohan_2018forcoorfinators.Pojo;
 
-/**
- * Created by ADMIN on 15-Jan-18.
- */
+
 
 public class EventStudentPojo {
     private String stu_name, stu_reg_no, stu_college, stu_email, stu_contact, ev_event_att;

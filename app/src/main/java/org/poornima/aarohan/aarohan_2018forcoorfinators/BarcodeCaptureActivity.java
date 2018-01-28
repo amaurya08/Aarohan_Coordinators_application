@@ -92,7 +92,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
         setContentView(R.layout.barcode_capture);
 
         mPreview = (CameraSourcePreview) findViewById(R.id.preview);
-        mGraphicOverlay = (GraphicOverlay<BarcodeGraphic>) findViewById(R.id.graphicOverlay);
+        mGraphicOverlay = findViewById(R.id.graphicOverlay);
 
         // read parameters from the intent used to launch the activity.
         //boolean autoFocus = getIntent().getBooleanExtra(AutoFocus, true);
