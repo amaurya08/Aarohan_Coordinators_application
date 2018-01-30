@@ -400,6 +400,12 @@ public class CheckInActivity extends AppCompatActivity {
         myadapter.notifyDataSetChanged();
         cursor.close();
     }
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        startActivity(new Intent(CheckInActivity.this,AccomodationActivity.class));
+        finish();
+    }
 
 }
 

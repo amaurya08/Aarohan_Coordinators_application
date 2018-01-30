@@ -113,14 +113,17 @@ public class PromptLoginActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             } else {
-                String m = jsonObject.getString("error");
-                Log.d(TAG, "Error Occured with String \"" + m + "\"");
-                Toast.makeText(PromptLoginActivity.this,"Error in parsing email",Toast.LENGTH_SHORT).show();
+               // String m = jsonObject.getString("error");
+                //og.d(TAG, "Error Occured with String \"" + m + "\"");
+                Toast.makeText(PromptLoginActivity.this,"Email is not Registered",Toast.LENGTH_SHORT).show();
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

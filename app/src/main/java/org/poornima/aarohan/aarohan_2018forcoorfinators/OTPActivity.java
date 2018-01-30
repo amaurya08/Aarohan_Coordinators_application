@@ -165,7 +165,7 @@ public class OTPActivity extends AppCompatActivity {
                         break;
                 }
         } else
-            Toast.makeText(this, "" + message, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "OTP is wrong", Toast.LENGTH_SHORT).show();
     }
 
     private boolean makeSession(String c_id, String c_type) {
@@ -243,5 +243,10 @@ public class OTPActivity extends AppCompatActivity {
 
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(OTPActivity.this,PromptLoginActivity.class));
+        finish();
+    }
 }

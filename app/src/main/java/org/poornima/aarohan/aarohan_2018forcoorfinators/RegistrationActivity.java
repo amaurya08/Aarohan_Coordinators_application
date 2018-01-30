@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -54,6 +55,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private ArrayList<RegistrationDataPojo> arrayList;
     private TextView co_email;
+    private boolean back = false;
     private registration_page_adaptor registration_adapter;
 
     private void init() {
@@ -341,6 +343,8 @@ public class RegistrationActivity extends AppCompatActivity {
                 dialog_Event_detail.show();
                 listofstuRegistered();
 
+                dialog_Event_detail.setCanceledOnTouchOutside(true);
+
             } else {
                 Log.d(TAG, "" + jsonObject.getString("message"));
                 progressDialog.cancel();
@@ -384,8 +388,20 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     public void onBackPressed() {
-        super.onBackPressed();
-        finish();
+
+        if(back){
+            super.onBackPressed();
+            return ;
+        }
+        this.back=true;
+        Toast.makeText(this, "Please Click Twice to Exit", Toast.LENGTH_SHORT).show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                back=false;
+            }
+        },2000);
+
     }
 }
 

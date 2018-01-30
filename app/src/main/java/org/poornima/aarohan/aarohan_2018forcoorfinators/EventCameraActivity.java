@@ -5,9 +5,9 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,12 +37,12 @@ import java.util.Map;
 
 public class EventCameraActivity extends AppCompatActivity {
 
+    private static final int RC_BARCODE_CAPTURE = 9001;
     private ProgressDialog progressDialog;
     private Button scan;
     private Button stuList;
     private TextView evetxt;
     private TextView ruletxt;
-    private static final int RC_BARCODE_CAPTURE = 9001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -209,18 +209,23 @@ public class EventCameraActivity extends AppCompatActivity {
                     Log.d("Debug", "cursor y :" + cursor.toString());
                     if (cursor != null) {
                         while (cursor.moveToNext()) {
-                            if (cursor.getString(1).equals(barcodeValue) && cursor.getString(5).equals("0")) {
-                                progressDialog.show();
-                                markAttendanceAPI(barcodeValue);
+                            if (cursor.getString(1).equals(barcodeValue)) {
+                                if (cursor.getString(5).equals("0")) {
+                                    progressDialog.show();
+                                    markAttendanceAPI(barcodeValue);
 
-                                flag1 = 1;
-                                break;
+                                    flag1 = 1;
+                                    break;
+                                } else {
+                                    Toast.makeText(EventCameraActivity.this, "Already exist", Toast.LENGTH_LONG).show();
+                                }
+
 
                             }
 
                         }
                         if (flag1 == 0) {
-                            Toast.makeText(EventCameraActivity.this, "Already exist or not Registered", Toast.LENGTH_LONG).show();
+                            Toast.makeText(EventCameraActivity.this, "Not Registered", Toast.LENGTH_LONG).show();
                         }
                     } else {
                         Toast.makeText(EventCameraActivity.this, "Error reading in Data from db", Toast.LENGTH_SHORT).show();
@@ -282,5 +287,12 @@ public class EventCameraActivity extends AppCompatActivity {
         } else {
             Toast.makeText(EventCameraActivity.this, message, Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        startActivity(new Intent(EventCameraActivity.this, EventCoordinatorActivity.class));
+        finish();
     }
 }

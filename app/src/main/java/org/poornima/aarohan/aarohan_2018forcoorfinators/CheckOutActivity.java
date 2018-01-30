@@ -389,5 +389,11 @@ public class CheckOutActivity extends AppCompatActivity {
         myadapter.notifyDataSetChanged();
         cursor.close();
     }
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        startActivity(new Intent(CheckOutActivity.this,AccomodationActivity.class));
+        finish();
+    }
 
 }

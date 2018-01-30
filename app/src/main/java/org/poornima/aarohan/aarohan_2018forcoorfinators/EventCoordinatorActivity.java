@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -48,6 +49,7 @@ public class EventCoordinatorActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private ArrayList<CoordinatorDataPojo> arrayList;
     private Button logoutbut;
+    private boolean back = false;
     EventCoordinatorListAdapter myadapter;
     //private ArrayAdapter<String> myadapter;
     TextView initaltxt;
@@ -122,6 +124,7 @@ public class EventCoordinatorActivity extends AppCompatActivity {
                 Intent intent = new Intent(EventCoordinatorActivity.this, EventCameraActivity.class);
                 intent.putExtra("eventid", pojo.getEvent_id());
                 startActivity(intent);
+                finish();
             }
         });
         logoutbut.setOnClickListener(new View.OnClickListener() {
@@ -278,6 +281,21 @@ public class EventCoordinatorActivity extends AppCompatActivity {
         }
 
     }
+    public void onBackPressed() {
 
+        if(back){
+            super.onBackPressed();
+            return ;
+        }
+        this.back=true;
+        Toast.makeText(this, "Please Click Twice to Exit", Toast.LENGTH_SHORT).show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                back=false;
+            }
+        },2000);
+
+    }
 
 }

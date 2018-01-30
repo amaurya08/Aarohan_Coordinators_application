@@ -20,7 +20,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 startApp();
-                finish();
+                //finish();
             }
         },3000);
     }
@@ -61,6 +61,7 @@ public class SplashActivity extends AppCompatActivity {
             }
         else {
             startActivity(new Intent(SplashActivity.this,PromptLoginActivity.class));
+            finish();
         }
 
     }

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -48,6 +49,7 @@ public class AccomodationActivity extends AppCompatActivity {
     private ArrayList<AccommodationStudentPojo> arrayList;
     private AccommodationStudentListAdapt myadapter;
     private ListView accolist;
+    private boolean back = false;
     private TextView title;
     private static final String TAG = "DEBUG";
 
@@ -100,6 +102,7 @@ public class AccomodationActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(AccomodationActivity.this, CheckInActivity.class);
                 AccomodationActivity.this.startActivity(intent);
+                finish();
             }
         });
         checkOutBut.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +110,7 @@ public class AccomodationActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(AccomodationActivity.this, CheckOutActivity.class);
                 AccomodationActivity.this.startActivity(intent);
+                finish();
             }
         });
         Logout.setOnClickListener(new View.OnClickListener() {
@@ -162,9 +166,11 @@ public class AccomodationActivity extends AppCompatActivity {
                             ((TextView) dialogview.findViewById(R.id.checkintxt)).setText(checkin);
                             ((TextView) dialogview.findViewById(R.id.checkouttxt)).setText(checkout);
                             if (cursor.getString(3).equals("0")) {
-                                ((TextView) dialogview.findViewById(R.id.paymenttxt)).setText("Payment Status:-No");
+                                String no="Payment Status:-No";
+                                ((TextView) dialogview.findViewById(R.id.paymenttxt)).setText(no);
                             } else {
-                                ((TextView) dialogview.findViewById(R.id.paymenttxt)).setText("Payment Status:-Yes");
+                                String yes="Payment Status:-Yes";
+                                ((TextView) dialogview.findViewById(R.id.paymenttxt)).setText(yes);
                             }
                             AlertDialog.Builder dialogbuild = new AlertDialog.Builder(AccomodationActivity.this);
                             dialogbuild.setView(dialogview)
@@ -343,7 +349,22 @@ public class AccomodationActivity extends AppCompatActivity {
         return sharedPreferences.getBoolean("is", false);
     }
 
+    public void onBackPressed() {
 
+        if(back){
+            super.onBackPressed();
+            return ;
+        }
+        this.back=true;
+        Toast.makeText(this, "Please Click Twice to Exit", Toast.LENGTH_SHORT).show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                back=false;
+            }
+        },2000);
+
+    }
 }
 
 
